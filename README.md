@@ -2,8 +2,12 @@
 
 ## Routes
 
+### Random restaurant
+/restaurants/random, /
+![random-rest](images/random-rest.png)
+
 ### Show all restaurants
-/restaurants, /
+/restaurants
 ![restaurants](images/restaurants.png)
 
 ### Create new restaurant
