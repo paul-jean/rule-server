@@ -43,13 +43,16 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:rest_id>/edit')
 def editRestaurant(rest_id):
-    return render_template('placeholder.html', message='This page will be for \
-    editing restaurant %s.' % rest_id)
+    # rest = restaurants[0]
+    for r in restaurants:
+        if int(r['id']) == rest_id:
+            rest = r
+            break
+    return render_template('editRestaurant.html', rest=rest)
 
 @app.route('/restaurant/<int:rest_id>/delete')
 def deleteRestaurant(rest_id):
-    return render_template('placeholder.html', message='This page will be for \
-    deleting restaurant %s.' % rest_id)
+    return render_template('deleteRestaurant.html', rest_id=rest_id)
 
 @app.route('/restaurant/<int:rest_id>/')
 @app.route('/restaurant/<int:rest_id>/menu')
