@@ -1,8 +1,15 @@
+<!--
+@param restaurants: list of restaurant objects
+-->
 <html>
     <body>
+        <h1>Restaurants</h1>
         <ul>
             {% for r in restaurants %}
-            <li>{{ r.name }}</li>
+            <li>{{ r.name }}
+                <a href="{{ url_for('editRestaurant', rest_id=r.id) }}">Edit</a>
+                <a href="{{ url_for('deleteRestaurant', rest_id=r.id) }}">Delete</a>
+            </li>
             {% endfor %}
         </ul>
     </body>

@@ -32,6 +32,14 @@ Cake','description':'made with Dutch Chocolate', 'price':'$3.99',
 item =  {'name':'Cheese Pizza','description':'made with fresh\
                 cheese','price':'$5.99','course' :'Entree'}
 
+def findRestaurant(rest_id):
+    for r in restaurants:
+        if int(r['id']) == rest_id:
+            rest = r
+            break
+    return rest
+
+
 @app.route('/')
 @app.route('/restaurants/')
 def showRestaurants():
@@ -43,25 +51,23 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:rest_id>/edit')
 def editRestaurant(rest_id):
-    # rest = restaurants[0]
-    for r in restaurants:
-        if int(r['id']) == rest_id:
-            rest = r
-            break
+    rest = findRestaurant(rest_id)
     return render_template('editRestaurant.html', rest=rest)
 
 @app.route('/restaurant/<int:rest_id>/delete')
 def deleteRestaurant(rest_id):
-    return render_template('deleteRestaurant.html', rest_id=rest_id)
+    rest = findRestaurant(rest_id)
+    return render_template('deleteRestaurant.html', rest=rest)
 
 @app.route('/restaurant/<int:rest_id>/')
 @app.route('/restaurant/<int:rest_id>/menu')
 def showMenu(rest_id):
-    return render_template('placeholder.html', message='This page is the menu for \
-    restaurant %s.' % rest_id)
+    rest = findRestaurant(rest_id)
+    return render_template('menu.html', restaurant=rest, items=items)
 
 @app.route('/restaurant/<int:rest_id>/menu/new')
 def newMenuItem(rest_id):
+    rest = findRestaurant(rest_id)
     return render_template('placeholder.html', message='This page is for \
     making a new menu item for restaurant %s.' % rest_id)
 

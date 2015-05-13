@@ -1,0 +1,12 @@
+<!--
+@param rest: restaurant object
+-->
+<html>
+    <body>
+        <h1>Delete Restaurant: {{ rest.name }}</h1>
+        <button action="{{ url_for('deleteRestaurant', rest_id=rest.id) }}" method='POST'>
+            Confirm delete
+        </button>
+        <a href="{{ url_for('showRestaurants') }}">Cancel</a>
+    </body>
+</html>
