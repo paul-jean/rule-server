@@ -1,14 +1,16 @@
+<!--
+@param restaurant: restaurant object
+-->
 <html>
-    <head>
-        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='styles.css') }}">
-    </head>
     <body>
         <h1>New Menu Item</h1>
         <div class='pane'>
-            <form action="{{ url_for('newMenuItem', rest_id=restaurant_id) }}" method="POST">
-                <p>Name:</p>
-                <input type="text" size="30" name="name">
-                <input type="submit" value="Create">
+            <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}" method="POST">
+                <p>Item name:</p>
+                <input type="text" size="30" name="name" placeholder="item name">
+                <p>Price:</p>
+                <input type="text" size="30" name="price" placeholder="price">
+                <input type="submit" value="Add item">
             </form>
         </div>
     </body>

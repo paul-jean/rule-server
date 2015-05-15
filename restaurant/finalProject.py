@@ -39,6 +39,11 @@ def findRestaurant(rest_id):
             break
     return rest
 
+def findMenuItem(menu_id):
+    for item in items:
+        if int(item['id']) == menu_id:
+            menuItem = item
+    return menuItem
 
 @app.route('/')
 @app.route('/restaurants/')
@@ -68,18 +73,19 @@ def showMenu(rest_id):
 @app.route('/restaurant/<int:rest_id>/menu/new')
 def newMenuItem(rest_id):
     rest = findRestaurant(rest_id)
-    return render_template('placeholder.html', message='This page is for \
-    making a new menu item for restaurant %s.' % rest_id)
+    return render_template('newMenuItem.html', restaurant=rest)
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/edit')
 def editMenuItem(rest_id, menu_id):
-    return render_template('placeholder.html', message='This page is for \
-    editing menu item %s for restaurant %s.' % (menu_id, rest_id))
+    rest = findRestaurant(rest_id)
+    menuItem = findMenuItem(menu_id)
+    return render_template('editMenuItem.html', restaurant=rest, item=menuItem)
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/delete')
 def deleteMenuItem(rest_id, menu_id):
-    return render_template('placeholder.html', message='This page is for \
-    deleting menu item %s for restaurant %s.' % (menu_id, rest_id))
+    rest = findRestaurant(rest_id)
+    menuItem = findMenuItem(menu_id)
+    return render_template('deleteMenuItem.html', restaurant=rest, item=menuItem)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
