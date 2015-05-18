@@ -1,5 +1,12 @@
 # Random restaurant
 
+## App setup
+
+``` bash
+    vagrant@vagrant-ubuntu-trusty-32:/vagrant/restaurant$ python lotsofmenus.py
+    added menu items!
+```
+
 ## Routes
 
 ### Random restaurant
