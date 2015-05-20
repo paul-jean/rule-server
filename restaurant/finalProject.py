@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from database_setup import Restaurant, MenuItem
+from bleach import clean
 
 # init Flask
 app = Flask(__name__)
@@ -20,9 +21,18 @@ def showRestaurants():
     restaurants = session.query(Restaurant)
     return render_template('restaurants.html', restaurants=restaurants)
 
-@app.route('/restaurant/new')
+@app.route('/restaurant/new', methods = ['GET', 'POST'])
 def newRestaurant():
-    return render_template('newRestaurant.html')
+    if request.method == 'POST':
+        restName = request.form['name']
+        restName = clean(restName)
+        restObj = Restaurant(name = restName)
+        session.add(restObj)
+        session.commit()
+        restaurants = session.query(Restaurant)
+        return render_template('restaurants.html', restaurants=restaurants)
+    else:
+        return render_template('newRestaurant.html')
 
 @app.route('/restaurant/<int:rest_id>/edit')
 def editRestaurant(rest_id):
