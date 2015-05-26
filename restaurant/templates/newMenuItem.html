@@ -4,13 +4,34 @@
 <html>
     <body>
         <h1>New Menu Item</h1>
-        <div class='pane'>
+        <div>
             <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}" method="POST">
                 <p>Item name:</p>
-                <input type="text" size="30" name="name" placeholder="item name">
+                <input type="text" size="30" name="name" placeholder="licorice cookie">
+                <p>Description:</p>
+                <input type="text" size="30" name="description" placeholder="yummy chewy munchy crunchy">
                 <p>Price:</p>
-                <input type="text" size="30" name="price" placeholder="price">
-                <input type="submit" value="Add item">
+                <input type="text" size="30" name="price" placeholder="3.99">
+                <p>Course:</p>
+                <div>
+                    <div>
+                        <input value="breakfast" type="radio" name="course" checked style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Breakfast</p>
+                    </div>
+                    <div>
+                        <input value="lunch" type="radio" name="course" style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Lunch</p>
+                    </div>
+                    <div>
+                        <input value="dinner" type="radio" name="course" style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Dinner</p>
+                    </div>
+                    <div>
+                        <input value="desert" type="radio" name="course" style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Desert</p>
+                    </div>
+                </div>
+                <input type="submit" value="Add item" style="clear:both; float:left">
             </form>
         </div>
     </body>

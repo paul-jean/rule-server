@@ -6,7 +6,7 @@
         <h1>Restaurants</h1>
         <ul>
             {% for r in restaurants %}
-            <li>{{ r.name }}
+            <li><a href="{{ url_for('showMenu', rest_id=r.id) }}">{{ r.name }}</a>
                 <a href="{{ url_for('editRestaurant', rest_id=r.id) }}">Edit</a>
                 <a href="{{ url_for('deleteRestaurant', rest_id=r.id) }}">Delete</a>
             </li>
