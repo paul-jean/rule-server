@@ -15,24 +15,25 @@
                 <p>Course:</p>
                 <div>
                     <div>
-                        <input value="breakfast" type="radio" name="course" checked style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Breakfast</p>
+                        <input value="Entree" type="radio" name="course" checked style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Entree</p>
                     </div>
                     <div>
-                        <input value="lunch" type="radio" name="course" style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Lunch</p>
+                        <input value="Appetizer" type="radio" name="course" style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Appetizer</p>
                     </div>
                     <div>
-                        <input value="dinner" type="radio" name="course" style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Dinner</p>
+                        <input value="Beverage" type="radio" name="course" style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Beverage</p>
                     </div>
                     <div>
-                        <input value="desert" type="radio" name="course" style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Desert</p>
+                        <input value="Dessert" type="radio" name="course" style="clear:both; float:left">
+                        <p style="float:left; margin:0px 5px">Dessert</p>
                     </div>
                 </div>
                 <input type="submit" value="Add item" style="clear:both; float:left">
             </form>
+            <a href="{{ url_for('showMenu', rest_id=restaurant.id) }}" style="clear:both; float:left">Cancel</a>
         </div>
     </body>
 </html>
