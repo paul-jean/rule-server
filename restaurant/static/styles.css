@@ -12,3 +12,12 @@ h1:after {
     content: '>';
     margin-left: 5px;
 }
+
+.container {
+    margin: auto;
+    width: 500px;
+}
+
+.button {
+    text-align: center;
+}

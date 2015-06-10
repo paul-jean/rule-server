@@ -6,15 +6,34 @@
 </head>
 <html>
     <body>
-        <h1>Restaurants</h1>
-        <ul>
-            {% for r in restaurants %}
-            <li><a href="{{ url_for('showMenu', rest_id=r.id) }}">{{ r.name }}</a>
-                <a href="{{ url_for('editRestaurant', rest_id=r.id) }}">Edit</a>
-                <a href="{{ url_for('deleteRestaurant', rest_id=r.id) }}">Delete</a>
-            </li>
-            {% endfor %}
-        </ul>
+        <div class="container">
+            <h1>Restaurants</h1>
+            <div class='button'>
+                <form action="{{ url_for('newRestaurant') }}">
+                    <input type='submit' value='Add new restaurant'>
+                </form>
+            </div>
+            <div>
+                <ul class='container'>
+                    {% for r in restaurants %}
+                    <li>
+                        <a href="{{ url_for('showMenu', rest_id=r.id) }}">{{ r.name }}</a>
+                        <ul class='rest_sub_nav'>
+                            <li>
+                                <a href="{{ url_for('showMenu', rest_id=r.id) }}">{{ r.name }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('editRestaurant', rest_id=r.id) }}">Edit</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('deleteRestaurant', rest_id=r.id) }}">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+    </div>
     </body>
 </html>
 
