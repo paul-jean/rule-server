@@ -21,3 +21,41 @@ h1:after {
 .button {
     text-align: center;
 }
+
+ul.rest_sub_nav {
+    display: inline;
+    list-style: none;
+    padding: 0;
+}
+
+ul.container {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+}
+
+.container li {
+    display: block;
+    border-radius: 5px;
+    border-color: #778899;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #AABBCC;
+    margin-top: 10px;
+}
+
+.container p {
+    display: inline-block;
+}
+
+.container a {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 0px;
+    text-decoration: none;
+}
+
+.rest_sub_nav li {
+    display: inline;
+    border-style: none;
+}
