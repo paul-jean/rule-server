@@ -1,5 +1,8 @@
+body {
+    font-family: Monda;
+}
+
 h1 {
-    font-family: courier;
     text-align: center;
 }
 
@@ -20,6 +23,36 @@ h1:after {
 
 .button {
     text-align: center;
+}
+
+.button button {
+    font-family: Monda;
+    font-size: 14px;
+    border-radius: 5px;
+    border-color: #778899;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #DDEEFF;
+    margin: 20px 5px;
+}
+
+.nav ul {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+}
+
+.nav li {
+    display: inline;
+    border-style: none;
+}
+
+.nav p {
+    display: inline-block;
+}
+
+.nav a {
+    text-decoration: none;
 }
 
 ul.rest_sub_nav {
