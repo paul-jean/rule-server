@@ -25,6 +25,10 @@ h1:after {
     text-align: center;
 }
 
+.form {
+    text-align: center;
+}
+
 .button button {
     font-family: Monda;
     font-size: 14px;
@@ -91,4 +95,37 @@ ul.container {
 .rest_sub_nav li {
     display: inline;
     border-style: none;
+}
+
+.fields p {
+    clear: both;
+    float: left;
+    margin: 5px 5px;
+}
+
+.fields input {
+    float: left;
+    margin: 5px 5px;
+}
+
+.radio input {
+    clear: both;
+    float: left;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.radio p {
+    float: left;
+    display: inline-block;
+    margin: 5px 5px;
+}
+
+.radio button {
+    clear: both;
+    float: left;
+}
+
+.cancel button {
+    float: left;
 }

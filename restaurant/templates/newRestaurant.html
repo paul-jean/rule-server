@@ -1,14 +1,31 @@
+<!--
+@param restaurants: list of restaurant objects
+-->
 <head>
-    <link rel='stylesheet' href='/static/styles.css'/>
+    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+    <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
+    <nav class="nav">
+        <ul>
+            <li>Home</li>
+            <p>|</p>
+            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+            <p>|</p>
+            <li>About</li>
+        </ul>
+    </nav>
     <body>
-        <h1>New Restaurant</h1>
-        <form action="{{ url_for('newRestaurant')}}" method='POST'>
-            <p>Name:</p>
-            <input type='text' size='30' name='name' placeholder='Yongs Yummies'>
-            <input type='submit' value='Submit'>
-        </form>
+        <div class="container form">
+            <h1>New Restaurant</h1>
+            <div class='button'>
+                <form action="{{ url_for('newRestaurant')}}" method='POST'>
+                    <p>Name:</p>
+                    <input type='text' size='30' name='name' placeholder='Yongs Yummies'>
+                    <button type='submit'>Submit</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
 

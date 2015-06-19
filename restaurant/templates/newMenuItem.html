@@ -2,41 +2,52 @@
 @param restaurant: restaurant object
 -->
 <head>
-    <link rel='stylesheet' href='/static/styles.css'/>
+    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+    <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
     <body>
-        <h1>New Menu Item</h1>
-        <div>
-            <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}" method="POST">
-                <p>Item name:</p>
-                <input type="text" size="30" name="name" placeholder="licorice cookie">
-                <p>Description:</p>
-                <input type="text" size="30" name="description" placeholder="yummy chewy munchy crunchy">
-                <p>Price:</p>
-                <input type="text" size="30" name="price" placeholder="3.99">
-                <p>Course:</p>
-                <div>
-                    <div>
-                        <input value="Entree" type="radio" name="course" checked style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Entree</p>
+        <div class="container">
+            <h1>New Menu Item</h1>
+            <div>
+                <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}" method="POST">
+                    <div class="fields">
+                        <p>Item name:</p>
+                        <input type="text" size="30" name="name" placeholder="licorice cookie">
+                        <p>Description:</p>
+                        <input type="text" size="30" name="description" placeholder="yummy chewy munchy crunchy">
+                        <p>Price:</p>
+                        <input type="text" size="30" name="price" placeholder="3.99">
+                        <p>Course:</p>
                     </div>
-                    <div>
-                        <input value="Appetizer" type="radio" name="course" style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Appetizer</p>
+                    <div class="radio">
+                        <div>
+                            <input value="Entree" type="radio" name="course" checked style="clear:both; float:left">
+                            <p>Entree</p>
+                        </div>
+                        <div>
+                            <input value="Appetizer" type="radio" name="course" style="clear:both; float:left">
+                            <p>Appetizer</p>
+                        </div>
+                        <div>
+                            <input value="Beverage" type="radio" name="course" style="clear:both; float:left">
+                            <p>Beverage</p>
+                        </div>
+                        <div>
+                            <input value="Dessert" type="radio" name="course" style="clear:both; float:left">
+                            <p>Dessert</p>
+                        </div>
+                        <div class="button">
+                            <button type="submit" >Add item</button>
+                        </div>
                     </div>
-                    <div>
-                        <input value="Beverage" type="radio" name="course" style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Beverage</p>
-                    </div>
-                    <div>
-                        <input value="Dessert" type="radio" name="course" style="clear:both; float:left">
-                        <p style="float:left; margin:0px 5px">Dessert</p>
-                    </div>
+                </form>
+                <div class="button cancel">
+                    <form action="{{ url_for('showMenu', rest_id=restaurant.id) }}">
+                        <button type="submit">Cancel</button>
+                    </form>
                 </div>
-                <input type="submit" value="Add item" style="clear:both; float:left">
-            </form>
-            <a href="{{ url_for('showMenu', rest_id=restaurant.id) }}" style="clear:both; float:left">Cancel</a>
+            </div>
         </div>
     </body>
 </html>
