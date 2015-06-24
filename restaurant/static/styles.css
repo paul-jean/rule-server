@@ -21,10 +21,6 @@ h1:after {
     width: 500px;
 }
 
-.button {
-    text-align: center;
-}
-
 .form {
     text-align: center;
 }
@@ -128,4 +124,21 @@ ul.container {
 
 .cancel button {
     float: left;
+}
+
+.center {
+    clear: both;
+    text-align: center;
+}
+
+.left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.row {
+    display: inline-block;
 }

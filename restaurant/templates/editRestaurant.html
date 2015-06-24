@@ -2,16 +2,36 @@
 @param restaurant: restaurant object
 -->
 <head>
-    <link rel='stylesheet' href='/static/styles.css'/>
+    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+    <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
+    <nav class="nav">
+        <ul>
+            <li>Home</li>
+            <p>|</p>
+            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+            <p>|</p>
+            <li>About</li>
+        </ul>
+    </nav>
     <body>
-        <h1>Edit Restaurant</h1>
-        <form action="{{ url_for('editRestaurant', rest_id=restaurant.id) }}" method='POST'>
-            <p>Name:</p>
-            <input type='text' size='30' name='name' placeholder='{{ restaurant.name }}'>
-            <input type='submit' value='Edit'>
-        </form>
-        <a href="{{ url_for('showRestaurants') }}">Cancel</a>
+        <div class="container">
+            <h1>Edit Restaurant</h1>
+            <div class="center">
+                <form action="{{ url_for('editRestaurant', rest_id=restaurant.id) }}" method='POST'>
+                    <div class="button">
+                        <p>Name:</p>
+                        <input type='text' size='30' name='name' placeholder='{{ restaurant.name }}'>
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="button center">
+                <form action="{{ url_for('showRestaurants') }}">
+                    <button type="submit">Cancel</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

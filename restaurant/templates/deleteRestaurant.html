@@ -2,14 +2,34 @@
 @param restaurant: restaurant object
 -->
 <head>
-    <link rel='stylesheet' href='/static/styles.css'/>
+    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+    <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
+    <nav class="nav">
+        <ul>
+            <li>Home</li>
+            <p>|</p>
+            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+            <p>|</p>
+            <li>About</li>
+        </ul>
+    </nav>
     <body>
-        <h1>Delete Restaurant: {{ restaurant.name }}</h1>
-        <form method='POST' action="{{ url_for('deleteRestaurant', rest_id=restaurant.id) }}">
-            <input type=submit name='delete' value='Delete'/>
-        </form>
-        <a href="{{ url_for('showRestaurants') }}">Cancel</a>
+        <div class="container">
+            <h1>Delete Restaurant: {{ restaurant.name }}</h1>
+            <div class="center">
+                <div class="button row">
+                    <form action="{{ url_for('deleteRestaurant', rest_id=restaurant.id) }}" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+                <div class="button row">
+                    <form action="{{ url_for('showRestaurants') }}">
+                        <button type="submit">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

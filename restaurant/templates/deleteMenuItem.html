@@ -3,14 +3,32 @@
 @param item: menu item object
 -->
 <head>
-    <link rel='stylesheet' href='/static/styles.css'/>
+    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+    <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
+    <nav class="nav">
+        <ul>
+            <li>Home</li>
+            <p>|</p>
+            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+            <p>|</p>
+            <li>About</li>
+        </ul>
+    </nav>
     <body>
-        <h1>Are you sure you want to delete {{item.name}}?</h1>
-        <form action="{{ url_for('deleteMenuItem', rest_id=restaurant.id, menu_id=item.id) }}" method='POST'>
-            <input type='submit' value='Delete'>
-        </form>
-        <a href="{{ url_for('showMenu', rest_id=restaurant.id) }}">Cancel</a>
+        <h1>Delete item: {{item.name}}</h1>
+        <div class="center">
+            <div class="button row">
+                <form action="{{ url_for('deleteMenuItem', rest_id=restaurant.id, menu_id=item.id) }}" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            <div class="button row">
+                <form action="{{ url_for('showMenu', rest_id=restaurant.id) }}">
+                    <button type="submit">Cancel</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
