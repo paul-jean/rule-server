@@ -7,43 +7,45 @@
     <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
-    <nav class="nav">
-        <ul>
-            <li>Home</li>
-            <p>|</p>
-            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
-            <p>|</p>
-            <li>About</li>
-        </ul>
-    </nav>
     <body>
-        <h1>{{restaurant.name}} menu</h1>
-        <div class="button center">
-            <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}">
-                <button type="submit">Create New Item</button>
-            </form>
-        </div>
-        {% for i in items %}
-        <div>
-            <div class="center">
-                <h3>{{i.name}}</h3>
-                <p>{{i.description}}</p>
-                <p>{{i.price}}</p>
-                <p>{{i.course}}</p>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>{{restaurant.name}} menu</h1>
+            <div class="button center">
+                <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}">
+                    <button type="submit">Create New Item</button>
+                </form>
             </div>
-            <div class="center">
-                <div class="button row">
-                    <form action="{{ url_for('editMenuItem', rest_id=restaurant.id, menu_id=i.id) }}" method="GET">
-                        <button type="submit">Edit</button>
-                    </form>
+            {% for i in items %}
+            <div>
+                <div class="center">
+                    <h3>{{i.name}}</h3>
+                    <p>{{i.description}}</p>
+                    <p>{{i.price}}</p>
+                    <p>{{i.course}}</p>
                 </div>
-                <div class="button row">
-                    <form action="{{ url_for('deleteMenuItem', rest_id=restaurant.id, menu_id=i.id) }}" method="GET">
-                        <button type="submit">Delete</button>
-                    </form>
+                <div class="center">
+                    <div class="button row">
+                        <form action="{{ url_for('editMenuItem', rest_id=restaurant.id, menu_id=i.id) }}" method="GET">
+                            <button type="submit">Edit</button>
+                        </form>
+                    </div>
+                    <div class="button row">
+                        <form action="{{ url_for('deleteMenuItem', rest_id=restaurant.id, menu_id=i.id) }}" method="GET">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </body>
 </html>

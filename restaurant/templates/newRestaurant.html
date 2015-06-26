@@ -6,16 +6,16 @@
     <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
-    <nav class="nav">
-        <ul>
-            <li>Home</li>
-            <p>|</p>
-            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
-            <p>|</p>
-            <li>About</li>
-        </ul>
-    </nav>
     <body>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
         <div class="container form">
             <h1>New Restaurant</h1>
             <div class='button'>

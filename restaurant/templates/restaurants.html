@@ -1,21 +1,21 @@
 <!--
 @param restaurants: list of restaurant objects
 -->
-<head>
-    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
-    <link href='/static/styles.css' rel='stylesheet'>
-</head>
 <html>
-    <nav class="nav">
-        <ul>
-            <li>Home</li>
-            <p>|</p>
-            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
-            <p>|</p>
-            <li>About</li>
-        </ul>
-    </nav>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+        <link href='/static/styles.css' rel='stylesheet'>
+    </head>
     <body>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
         <div class="container">
             <h1>Restaurants</h1>
             <div class='button center'>

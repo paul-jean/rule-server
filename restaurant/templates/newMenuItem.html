@@ -7,6 +7,15 @@
 </head>
 <html>
     <body>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
         <div class="container">
             <h1>New Menu Item</h1>
             <div>

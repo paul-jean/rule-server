@@ -7,16 +7,16 @@
     <link href='/static/styles.css' rel='stylesheet'>
 </head>
 <html>
-    <nav class="nav">
-        <ul>
-            <li>Home</li>
-            <p>|</p>
-            <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
-            <p>|</p>
-            <li>About</li>
-        </ul>
-    </nav>
     <body>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
         <h1>Delete item: {{item.name}}</h1>
         <div class="center">
             <div class="button row">

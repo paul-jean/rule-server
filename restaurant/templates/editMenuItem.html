@@ -8,9 +8,18 @@
 </head>
 <html>
     <body>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
         <div class="container">
             <h1>Edit Menu Item: {{ item.name }}</h1>
-            <div>
+            <div class="center">
                 <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}" method="POST">
                     <div class="fields">
                         <p>Item name:</p>

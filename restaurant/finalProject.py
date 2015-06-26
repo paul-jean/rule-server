@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from database_setup import Restaurant, MenuItem
 from bleach import clean
+from random import randrange
 
 # init Flask
 app = Flask(__name__)
@@ -15,11 +16,27 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
-@app.route('/')
+@app.route('/about/')
+def about():
+    return render_template('about.html')
+
 @app.route('/restaurants/')
 def showRestaurants():
     restaurants = session.query(Restaurant)
     return render_template('restaurants.html', restaurants=restaurants)
+
+@app.route('/')
+@app.route('/random/', methods = ['GET', 'POST'])
+def randomRestaurant():
+    if request.method == 'POST':
+        restaurants = session.query(Restaurant).all()
+        num_restaurants = len(restaurants)
+        rand_restaurant_index = randrange(0, num_restaurants)
+        rand_restaurant = restaurants[rand_restaurant_index]
+        return render_template('random_choice.html', restaurant=rand_restaurant)
+    else:
+        return render_template('random_button.html')
+
 
 @app.route('/restaurant/new', methods = ['GET', 'POST'])
 def newRestaurant():

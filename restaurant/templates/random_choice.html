@@ -1,5 +1,5 @@
 <!--
-@param restaurant: restaurant object
+@param restaurant: randomly chosen restaurant
 -->
 <html>
     <head>
@@ -17,19 +17,20 @@
             </ul>
         </nav>
         <div class="container">
-            <h1>Delete Restaurant: {{ restaurant.name }}</h1>
+            <h1>BOOM Here's Your Random Restaurant</h1>
+            <div class='center'>
+                <a href="{{ url_for('showMenu', rest_id=restaurant.id) }}">{{ restaurant.name }}</a>
+            </div>
             <div class="center">
                 <div class="button row">
-                    <form action="{{ url_for('deleteRestaurant', rest_id=restaurant.id) }}" method="POST">
-                        <button type="submit">Delete</button>
-                    </form>
-                </div>
-                <div class="button row">
-                    <form action="{{ url_for('showRestaurants') }}">
-                        <button type="submit">Cancel</button>
+                    <form action="{{ url_for('randomRestaurant') }}" method="POST">
+                        <button type="submit">Try again</button>
                     </form>
                 </div>
             </div>
         </div>
     </body>
 </html>
+
+
+
