@@ -24,7 +24,7 @@
                 </form>
             </div>
             <div>
-                <ul class='container'>
+                <ul class='container thin'>
                     {% for r in restaurants %}
                     <li>
                         <a href="{{ url_for('showMenu', rest_id=r.id) }}">{{ r.name }}</a>

@@ -16,11 +16,6 @@ h1:after {
     margin-left: 5px;
 }
 
-.container {
-    margin: auto;
-    width: 500px;
-}
-
 .form {
     text-align: center;
 }
@@ -61,6 +56,11 @@ ul.rest_sub_nav {
     padding: 0;
 }
 
+.container {
+    margin: auto;
+    width: 700px;
+}
+
 ul.container {
     list-style: none;
     text-align: center;
@@ -86,6 +86,10 @@ ul.container {
     text-align: center;
     margin: 10px 0px;
     text-decoration: none;
+}
+
+.container button {
+    text-align: center;
 }
 
 .rest_sub_nav li {
@@ -128,7 +132,16 @@ ul.container {
 
 .center {
     clear: both;
+    margin: auto;
     text-align: center;
+}
+
+.forms {
+    margin-left: 200px;
+}
+
+.thin {
+    width: 400px;
 }
 
 .left {

@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from database_setup import Restaurant, MenuItem
 from bleach import clean
 from random import randrange
+from re import sub
 
 # init Flask
 app = Flask(__name__)
@@ -24,6 +25,11 @@ def about():
 def showRestaurants():
     restaurants = session.query(Restaurant)
     return render_template('restaurants.html', restaurants=restaurants)
+
+@app.route('/restaurants/JSON/')
+def showRestaurantsJSON():
+    restaurants = session.query(Restaurant).all()
+    return jsonify(Restaurants=[r.serialize for r in restaurants])
 
 @app.route('/')
 @app.route('/random/', methods = ['GET', 'POST'])
@@ -83,7 +89,23 @@ def deleteRestaurant(rest_id):
 def showMenu(rest_id):
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
+    for i in menuItems:
+        i.price = sub('\$', '', i.price)
     return render_template('menu.html', restaurant=restObj, items=menuItems)
+
+@app.route('/restaurant/<int:rest_id>/menu/JSON/')
+def showMenuJSON(rest_id):
+    restObj = session.query(Restaurant).filter_by(id = rest_id).one()
+    menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
+    for i in menuItems:
+        i.price = sub('\$', '', i.price)
+    return jsonify(MenuItems=[i.serialize for i in menuItems])
+
+@app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/JSON/')
+def showMenuItemJSON(rest_id, menu_id):
+    menuItem = session.query(MenuItem).filter_by(restaurant_id = rest_id, id=menu_id).one()
+    menuItem.price = sub('\$', '', menuItem.price)
+    return jsonify(MenuItem=menuItem.serialize)
 
 @app.route('/restaurant/<int:rest_id>/menu/new', methods = ['GET', 'POST'])
 def newMenuItem(rest_id):
