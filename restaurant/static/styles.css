@@ -155,3 +155,25 @@ ul.container {
 .row {
     display: inline-block;
 }
+
+.flashes ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.flashes li {
+    font-size: 14px;
+    border-radius: 0px;
+    border-color: #778899;
+    border-width: 1px;
+    border-style: solid;
+    background-color: yellow;
+    margin: 20px 5px;
+    text-align: center;
+}
+
+div.flashes {
+    width: 400px;
+    margin: auto;
+}
+

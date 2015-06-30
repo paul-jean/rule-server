@@ -53,7 +53,8 @@ def newRestaurant():
         session.add(restObj)
         session.commit()
         restaurants = session.query(Restaurant)
-        return render_template('restaurants.html', restaurants=restaurants)
+        flash('Added restaurant: ' + restName)
+        return redirect(url_for('showRestaurants'))
     else:
         return render_template('newRestaurant.html')
 
@@ -67,7 +68,8 @@ def editRestaurant(rest_id):
         session.add(restObj)
         session.commit()
         restaurants = session.query(Restaurant)
-        return render_template('restaurants.html', restaurants=restaurants)
+        flash('Edited restaurant: ' + restName)
+        return redirect(url_for('showRestaurants'))
     else:
         rest = session.query(Restaurant).filter_by(id = rest_id).one()
         return render_template('editRestaurant.html', restaurant=rest)
@@ -78,8 +80,8 @@ def deleteRestaurant(rest_id):
         restObj = session.query(Restaurant).filter_by(id = rest_id).one()
         session.delete(restObj)
         session.commit()
-        restaurants = session.query(Restaurant)
-        return render_template('restaurants.html', restaurants=restaurants)
+        flash('Deleted restaurant: ' + restObj.name)
+        return redirect(url_for('showRestaurants'))
     else:
         rest = session.query(Restaurant).filter_by(id = rest_id).one()
         return render_template('deleteRestaurant.html', restaurant=rest)
@@ -118,8 +120,8 @@ def newMenuItem(rest_id):
         newItem = MenuItem(name = name, course = course, description = description, price = price, restaurant_id = rest_id)
         session.add(newItem)
         session.commit()
-        menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
-        return render_template('menu.html', restaurant=restObj, items=menuItems)
+        flash('Added menu item: ' + name)
+        return redirect(url_for('showMenu', rest_id=restObj.id))
     else:
         return render_template('newMenuItem.html', restaurant=restObj)
 
@@ -138,8 +140,9 @@ def editMenuItem(rest_id, menu_id):
         menuItemObj.course = course
         session.add(menuItemObj)
         session.commit()
+        flash('Edited menu item: ' + menuItemObj.name)
         menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
-        return render_template('menu.html', restaurant=restObj, items=menuItems)
+        return redirect(url_for('showMenu', rest_id=rest_id))
     else:
         return render_template('editMenuItem.html', restaurant=restObj, item=menuItemObj)
 
@@ -150,8 +153,8 @@ def deleteMenuItem(rest_id, menu_id):
     if request.method == 'POST':
         session.delete(menuItemObj)
         session.commit()
-        menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
-        return render_template('menu.html', restaurant=restObj, items=menuItems)
+        flash('Deleted menu item: ' + menuItemObj.name)
+        return redirect(url_for('showMenu', rest_id=rest_id))
     else:
         return render_template('deleteMenuItem.html', restaurant=restObj, item=menuItemObj)
 
