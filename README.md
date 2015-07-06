@@ -7,6 +7,8 @@
     added menu items!
 ```
 
+Note: app needs a G+ client secrets file called `client_secrets.json`.
+
 ## Routes
 
 ### Random restaurant

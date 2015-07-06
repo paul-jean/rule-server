@@ -36,6 +36,37 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
+@app.route('/gdisconnect')
+def gdisconnect():
+    # Only disconnect a connected user:
+    credentials = login_session.get('credentials')
+    if credentials is None:
+        response = make_response(json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    # Send http GET request to revoke current token:
+    access_token = credentials.access_token
+    url = ('https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token)
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+
+    if result['status'] == '200':
+        # Reset the user's session:
+        del login_session['credentials']
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+        # For some reason, the given token was invalid:
+        response = make_response(json.dumps('Failed to revoke token for given user.'), 400)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -136,6 +167,8 @@ def randomRestaurant():
 
 @app.route('/restaurant/new', methods = ['GET', 'POST'])
 def newRestaurant():
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
         restName = request.form['name']
         restName = clean(restName)
@@ -150,6 +183,8 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:rest_id>/edit', methods = ['GET', 'POST'])
 def editRestaurant(rest_id):
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
         restObj = session.query(Restaurant).filter_by(id = rest_id).one()
         restName = request.form['name']
@@ -166,6 +201,8 @@ def editRestaurant(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/delete', methods = ['GET', 'POST'])
 def deleteRestaurant(rest_id):
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
         restObj = session.query(Restaurant).filter_by(id = rest_id).one()
         session.delete(restObj)
@@ -201,6 +238,8 @@ def showMenuItemJSON(rest_id, menu_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/new', methods = ['GET', 'POST'])
 def newMenuItem(rest_id):
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if request.method == 'POST':
         name = request.form['name']
@@ -217,6 +256,8 @@ def newMenuItem(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/edit', methods = ['GET', 'POST'])
 def editMenuItem(rest_id, menu_id):
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     menuItemObj = session.query(MenuItem).filter_by(id = menu_id).one()
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if request.method == 'POST':
@@ -238,6 +279,8 @@ def editMenuItem(rest_id, menu_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/delete', methods = ['GET', 'POST'])
 def deleteMenuItem(rest_id, menu_id):
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     menuItemObj = session.query(MenuItem).filter_by(id = menu_id).one()
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if request.method == 'POST':
