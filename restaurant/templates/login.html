@@ -15,5 +15,35 @@
                 data-approvalprompt="force">
             </span>
         </div>
+        <div id='response'></div>
+        <script>
+            function signinCallback(authResult) {
+                if (authResult['code']) {
+                    // App is authorized, so hide the g+ signin button
+                    $('signinButton').attr('style', 'display: none');
+                    // Send the one-time use code to the server
+                    $.ajax({
+                        type: 'POST',
+                        url: '/gconnect?state={{STATE}}',
+                        processData: false,
+                        contentType: 'application/octet-stream; charset=utf-8',
+                        data: authResult['code'],
+                        success: function(result) {
+                            // If the server responds, show a 'login success' message and redirect to restaurants page
+                            if (result) {
+                                $('#result').html('Login successful!</br>' + result + '</br>Redirecting ...');
+                                setTimeout(function() {
+                                    window.location.href = '/restaurants';
+                                }, 4000);
+                            } else if (authResult['error']) {
+                                console.log('Error logging into server: ' + authResult['error']);
+                            }
+                        }
+                    });
+                } else {
+                    $('#result').html('Failed to make server-side call. Check your configuration and console.')
+                }
+            }
+        </script>
     </body>
 </html>
