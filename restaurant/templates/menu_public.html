@@ -1,0 +1,51 @@
+<!--
+@param restaurant: restaurant object
+@param items: list of menu item objects
+-->
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
+    <link href='/static/styles.css' rel='stylesheet'>
+</head>
+<html>
+    <body>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
+                <p>|</p>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1>{{restaurant.name}} menu</h1>
+            <div class='creator'>
+                <figure>
+                    <img src={{creator.picture}}>
+                    <figcaption>{{creator.username}}</figcaption>
+                </figure>
+            </div>
+            <div class='flashes'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            {% for i in items %}
+            <div>
+                <div class="center">
+                    <h3>{{i.name}}</h3>
+                    <p>{{i.description}}</p><br>
+                    <p>${{i.price}}</p><br>
+                    <p>{{i.course}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>

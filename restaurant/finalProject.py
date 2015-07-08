@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from database_setup import Restaurant, MenuItem
+from database_setup import Restaurant, MenuItem, User
 from bleach import clean
 from random import randrange
 from re import sub
@@ -24,7 +24,7 @@ APPLICATION_NAME = "Random Restaurant Application"
 
 # init SQLAlchemy
 Base = declarative_base()
-engine = create_engine('sqlite:///restaurantmenu.db')
+engine = create_engine('sqlite:///restaurantmenu_withusers.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind = engine)
@@ -35,6 +35,27 @@ def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state)
+
+def createUser(login_session):
+    newUser = User(
+            name = login_session['username'],
+            email = login_session['email'],
+            picture = login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email = login_session['email']).one()
+    return user.id
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id = user_id).one()
+    return user
+
+def getUserID(user_email):
+    try:
+        user = session.query(User).filter_by(email = user_email).one()
+        return user.id
+    except:
+        return None
 
 @app.route('/gdisconnect')
 def gdisconnect():
@@ -126,6 +147,14 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    # Check if this user has an account
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        # Create a new user
+        user_id = createUser(login_session)
+
+    login_session['user_id'] = user_id
+
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -145,6 +174,9 @@ def about():
 @app.route('/restaurants/')
 def showRestaurants():
     restaurants = session.query(Restaurant)
+    credentials = login_session.get('credentials')
+    if credentials is None:
+        return render_template('restaurants_public.html', restaurants=restaurants)
     return render_template('restaurants.html', restaurants=restaurants)
 
 @app.route('/restaurants/JSON/')
@@ -167,12 +199,13 @@ def randomRestaurant():
 
 @app.route('/restaurant/new', methods = ['GET', 'POST'])
 def newRestaurant():
-    if 'username' not in login_session:
+    credentials = login_session.get('credentials')
+    if credentials is None:
         return redirect(url_for('showLogin'))
     if request.method == 'POST':
         restName = request.form['name']
         restName = clean(restName)
-        restObj = Restaurant(name = restName)
+        restObj = Restaurant(name = restName, user_id = login_session['user_id'])
         session.add(restObj)
         session.commit()
         restaurants = session.query(Restaurant)
@@ -183,7 +216,8 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:rest_id>/edit', methods = ['GET', 'POST'])
 def editRestaurant(rest_id):
-    if 'username' not in login_session:
+    credentials = login_session.get('credentials')
+    if credentials is None:
         return redirect(url_for('showLogin'))
     if request.method == 'POST':
         restObj = session.query(Restaurant).filter_by(id = rest_id).one()
@@ -201,7 +235,8 @@ def editRestaurant(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/delete', methods = ['GET', 'POST'])
 def deleteRestaurant(rest_id):
-    if 'username' not in login_session:
+    credentials = login_session.get('credentials')
+    if credentials is None:
         return redirect(url_for('showLogin'))
     if request.method == 'POST':
         restObj = session.query(Restaurant).filter_by(id = rest_id).one()
@@ -220,7 +255,11 @@ def showMenu(rest_id):
     menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
     for i in menuItems:
         i.price = sub('\$', '', i.price)
-    return render_template('menu.html', restaurant=restObj, items=menuItems)
+    if restObj.user_id == login_session['user_id']:
+        return render_template('menu.html', restaurant=restObj, items=menuItems)
+    else:
+        creator = getUserInfo(restObj.user_id)
+        return render_template('menu_public.html', restaurant=restObj, items=menuItems, creator=creator)
 
 @app.route('/restaurant/<int:rest_id>/menu/JSON/')
 def showMenuJSON(rest_id):
@@ -238,7 +277,8 @@ def showMenuItemJSON(rest_id, menu_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/new', methods = ['GET', 'POST'])
 def newMenuItem(rest_id):
-    if 'username' not in login_session:
+    credentials = login_session.get('credentials')
+    if credentials is None:
         return redirect(url_for('showLogin'))
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if request.method == 'POST':
@@ -246,7 +286,10 @@ def newMenuItem(rest_id):
         description = request.form['description']
         price = request.form['price']
         course = request.form['course']
-        newItem = MenuItem(name = name, course = course, description = description, price = price, restaurant_id = rest_id)
+        newItem = MenuItem(
+                name = name, course = course,
+                description = description, price = price,
+                restaurant_id = rest_id, user_id = restObj.user_id)
         session.add(newItem)
         session.commit()
         flash('Added menu item: ' + name)
@@ -256,7 +299,8 @@ def newMenuItem(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/edit', methods = ['GET', 'POST'])
 def editMenuItem(rest_id, menu_id):
-    if 'username' not in login_session:
+    credentials = login_session.get('credentials')
+    if credentials is None:
         return redirect(url_for('showLogin'))
     menuItemObj = session.query(MenuItem).filter_by(id = menu_id).one()
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
@@ -279,7 +323,8 @@ def editMenuItem(rest_id, menu_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/delete', methods = ['GET', 'POST'])
 def deleteMenuItem(rest_id, menu_id):
-    if 'username' not in login_session:
+    credentials = login_session.get('credentials')
+    if credentials is None:
         return redirect(url_for('showLogin'))
     menuItemObj = session.query(MenuItem).filter_by(id = menu_id).one()
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
