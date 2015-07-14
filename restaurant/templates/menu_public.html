@@ -2,21 +2,10 @@
 @param restaurant: restaurant object
 @param items: list of menu item objects
 -->
-<head>
-    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
-    <link href='/static/styles.css' rel='stylesheet'>
-</head>
 <html>
+    {% include 'header.html' %}
     <body>
-        <nav class="nav">
-            <ul>
-                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
-                <p>|</p>
-                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
-                <p>|</p>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-            </ul>
-        </nav>
+        {% include 'nav.html' %}
         <div class="container">
             <h1>{{restaurant.name}} menu</h1>
             <div class='creator'>
@@ -36,16 +25,56 @@
                     {% endif %}
                 {% endwith %}
             </div>
-            {% for i in items %}
-            <div>
-                <div class="center">
-                    <h3>{{i.name}}</h3>
-                    <p>{{i.description}}</p><br>
-                    <p>${{i.price}}</p><br>
-                    <p>{{i.course}}</p>
+            <div id='menu' class='center'>
+                <div id='appetizer'>
+                    <h2>Appetizers</h2>
+                {% for i in items %}
+                {% if i.course == 'Appetizer' %}
+                    <div class='menu_item'>
+                        <h3>{{i.name}}</h3>
+                        <p>{{i.description}}</p><br>
+                        <span class='price'><p>${{i.price}}</p></span><br>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+                <div id='entree'>
+                    <h2>Entrees</h2>
+                {% for i in items %}
+                {% if i.course == 'Entree' %}
+                    <div class='menu_item'>
+                        <h3>{{i.name}}</h3>
+                        <p>{{i.description}}</p><br>
+                        <span class='price'><p>${{i.price}}</p></span><br>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+                <div id='dessert'>
+                    <h2>Desserts</h2>
+                {% for i in items %}
+                {% if i.course == 'Dessert' %}
+                    <div class='menu_item'>
+                        <h3>{{i.name}}</h3>
+                        <p>{{i.description}}</p><br>
+                        <span class='price'><p>${{i.price}}</p></span><br>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+                <div id='beverege'>
+                    <h2>Bevereges</h2>
+                {% for i in items %}
+                {% if i.course == 'Beverege' %}
+                    <div class='menu_item'>
+                        <h3>{{i.name}}</h3>
+                        <p>{{i.description}}</p><br>
+                        <span class='price'><p>${{i.price}}</p></span><br>
+                    </div>
+                {% endif %}
+                {% endfor %}
                 </div>
             </div>
-            {% endfor %}
         </div>
     </body>
 </html>

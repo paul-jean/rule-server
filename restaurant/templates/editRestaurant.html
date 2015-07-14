@@ -1,21 +1,10 @@
 <!--
 @param restaurant: restaurant object
 -->
-<head>
-    <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
-    <link href='/static/styles.css' rel='stylesheet'>
-</head>
 <html>
+    {% include 'header.html' %}
     <body>
-        <nav class="nav">
-            <ul>
-                <li><a href="{{ url_for('randomRestaurant') }}">Home</a></li>
-                <p>|</p>
-                <li><a href="{{ url_for('showRestaurants') }}">Restaurants</a></li>
-                <p>|</p>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-            </ul>
-        </nav>
+        {% include 'nav.html' %}
         <div class="container">
             <h1>Edit Restaurant: {{ restaurant.name }}</h1>
             <div class="center">
