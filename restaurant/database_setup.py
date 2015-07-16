@@ -3,6 +3,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
+from db_link import getDBLink
 Base = declarative_base()
 
 class User(Base):
@@ -52,6 +53,6 @@ class MenuItem(Base):
         }
 
 # end
-engine = create_engine('postgres://nqkjjumdijpzme:2Szqv_rdkuk7cUvjgIPXcCQH-A@ec2-54-83-46-91.compute-1.amazonaws.com:5432/d3afm4vspt0ust')
-# engine = create_engine('sqlite:///restaurantmenu_withusers.db')
+dblink = getDBLink()
+engine = create_engine(dblink)
 Base.metadata.create_all(engine)

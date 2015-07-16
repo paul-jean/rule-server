@@ -8,6 +8,7 @@ from random import randrange
 from re import sub
 from flask import session as login_session
 import random, string
+from db_link import getDBLink
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -24,8 +25,8 @@ APPLICATION_NAME = "Random Restaurant Application"
 
 # init SQLAlchemy
 Base = declarative_base()
-# engine = create_engine('sqlite:///restaurantmenu_withusers.db')
-engine = create_engine('postgres://nqkjjumdijpzme:2Szqv_rdkuk7cUvjgIPXcCQH-A@ec2-54-83-46-91.compute-1.amazonaws.com:5432/d3afm4vspt0ust')
+dblink = getDBLink()
+engine = create_engine(dblink)
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind = engine)
