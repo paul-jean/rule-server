@@ -7,17 +7,7 @@
         {% include 'nav.html' %}
         <div class="container">
             <h1>Restaurants</h1>
-            <div class='flashes'>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul>
-                            {% for message in messages %}
-                                <li>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-            </div>
+            {% include 'flashes.html' %}
             <div>
                 <ul class='container thin'>
                     {% for r in restaurants %}

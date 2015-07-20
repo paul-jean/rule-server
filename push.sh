@@ -1,3 +1,3 @@
 #! /bin/sh -x
 
-git subtree push --prefix restaurant heroku master
+git subtree push --prefix random-noms heroku master

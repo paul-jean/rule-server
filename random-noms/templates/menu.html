@@ -8,24 +8,13 @@
         {% include 'nav.html' %}
         <div class="container">
             <h1>{{restaurant.name}} menu</h1>
-            <div class='flashes'>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% endwith %}
-            </div>
+            {% include 'flashes.html' %}
             <div class="button center">
                 <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}">
                     <button type="submit">Create New Item</button>
                 </form>
             </div>
             {% for i in items %}
-            {% if i.course == 'Dessert' %}
             <div>
                 <div class="center">
                     <h3>{{i.name}}</h3>
@@ -46,7 +35,6 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
             {% endfor %}
         </div>
     </body>

@@ -237,3 +237,7 @@ div.creator {
     text-align: center;
     margin: auto;
 }
+
+.creator img {
+    width: 200px;
+}

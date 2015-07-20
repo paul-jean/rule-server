@@ -14,17 +14,7 @@
                     <figcaption>Created by: {{creator.name}}</figcaption>
                 </figure>
             </div>
-            <div class='flashes'>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul>
-                            {% for message in messages %}
-                                <li>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-            </div>
+            {% include 'flashes.html' %}
             <div id='menu' class='center'>
                 <div id='appetizer'>
                     <h2>Appetizers</h2>

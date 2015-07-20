@@ -71,11 +71,13 @@
             })(document, 'script', 'facebook-jssdk');
             // FB token exchange:
             function sendTokenToServer() {
+                debugger;
                 var access_token = FB.getAuthResponse()['accessToken'];
                 console.log('Welcome! Fetching your access token...');
                 console.log(access_token);
                 FB.api('/me', function(response) {
                     console.log('Successful login for ' + response.name);
+                    debugger;
                     $.ajax({
                         type: 'POST',
                         url: '/fbconnect?state={{STATE}}',
