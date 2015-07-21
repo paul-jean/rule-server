@@ -70,16 +70,8 @@ def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
             gdisconnect()
-            del login_session['credentials']
-            del login_session['gplus_id']
         if login_session['provider'] == 'facebook':
             fbdisconnect()
-            del login_session['facebook_id']
-
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        del login_session['user_id']
         del login_session['provider']
         flash('You have been successfully logged out.')
         return redirect(url_for('showRestaurants'))
@@ -245,15 +237,17 @@ def fbconnect():
     token = result.split('&')[0]
 
     # Use the token to get user info from the FB API:
-    url = 'https://graph.facebook.com/v2.2/me?%s' % token
+    url = 'https://graph.facebook.com/v2.4/me?%s&fields=id,name,email' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     user_data = json.loads(result)
+    print user_data
 
     login_session['provider'] = 'facebook'
     login_session['username'] = user_data['name']
     login_session['email'] = user_data['email']
     login_session['facebook_id'] = user_data['id']
+    print login_session
 
     stored_token = token.split("=")[1]
     login_session['access_token'] = stored_token
@@ -506,7 +500,7 @@ def deleteMenuItem(rest_id, menu_id):
     else:
         return render_template('deleteMenuItem.html', restaurant = restObj, item = menuItemObj)
 
-# if __name__ == '__main__':
-app.secret_key = 'super_secret_key'
-app.debug = True
-#    app.run(host = '0.0.0.0', port = 5000)
+if __name__ == '__main__':
+    app.secret_key = 'super_secret_key'
+    app.debug = True
+    app.run(host = '0.0.0.0', port = 5000)
