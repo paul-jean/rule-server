@@ -320,7 +320,7 @@ def randomRestaurant():
     else:
         return render_template('random_button.html')
 
-def isValidInput(inputString):
+def isValidInput(inputString, message = '', redirect = 'showRestaurants'):
     if len(inputString) == 0:
         return False
     return True
@@ -333,7 +333,7 @@ def newRestaurant():
         restName = request.form['name']
         restName = clean(restName)
         if not isValidInput(restName):
-            flash('Invalid restaurant name: ' + restName)
+            flash('Restaurant name is required')
             return redirect(url_for('showRestaurants'))
         restObj = Restaurant(name = restName, user_id = login_session['user_id'])
         session.add(restObj)
@@ -356,7 +356,7 @@ def editRestaurant(rest_id):
         restName = request.form['name']
         restName = clean(restName)
         if not isValidInput(restName):
-            flash('Invalid restaurant name: ' + restName)
+            flash('Restaurant name is required')
             return redirect(url_for('showRestaurants'))
         restObj.name = restName
         session.add(restObj)
@@ -426,15 +426,15 @@ def newMenuItem(rest_id):
     if request.method == 'POST':
         name = clean(request.form['name'])
         if not isValidInput(name):
-            flash('Invalid item name: ' + name)
+            flash('Item name is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         description = clean(request.form['description'])
         if not isValidInput(description):
-            flash('Invalid item description: ' + description)
+            flash('Item description is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         price = clean(request.form['price'])
         if not isValidInput(price):
-            flash('Invalid price: ' + price)
+            flash('Item price is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         course = clean(request.form['course'])
         newItem = MenuItem(
@@ -460,15 +460,15 @@ def editMenuItem(rest_id, menu_id):
     if request.method == 'POST':
         name = clean(request.form['name'])
         if not isValidInput(name):
-            flash('Invalid item name: ' + name)
+            flash('Item name is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         description = clean(request.form['description'])
         if not isValidInput(description):
-            flash('Invalid item description: ' + description)
+            flash('Item description is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         price = clean(request.form['price'])
         if not isValidInput(price):
-            flash('Invalid price: ' + price)
+            flash('Item price is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         course = clean(request.form['course'])
         menuItemObj.name = name
@@ -500,7 +500,7 @@ def deleteMenuItem(rest_id, menu_id):
     else:
         return render_template('deleteMenuItem.html', restaurant = restObj, item = menuItemObj)
 
-if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
-    app.debug = True
-    app.run(host = '0.0.0.0', port = 5000)
+#if __name__ == '__main__':
+app.secret_key = 'super_secret_key'
+#app.debug = True
+#    app.run(host = '0.0.0.0', port = 5000)
