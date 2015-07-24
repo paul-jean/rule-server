@@ -7,15 +7,15 @@ Users can then get randomly selected restaurants from the full database of resta
 
 See the full list of restaurants (and edit the list if the user is logged in):
 
-![restaurants](../images/restaurants-page.png)
+![restaurants](images/restaurants-page.png)
 
 Users can click the "I'm feeling hungry" button on the homepage:
 
-![feeling-hungry](../images/feeling-hungry.png)
+![feeling-hungry](images/feeling-hungry.png)
 
 ... and get a randomly selected restaurant to eat at:
 
-![random-choice](../images/random-choice-page.png)
+![random-choice](images/random-choice-page.png)
 
 ## App setup
 
@@ -33,7 +33,7 @@ Start the app locally using `python`:
 
 The app allows the user to log in via Google+ and Facebook social sign-on buttons:
 
-![social-sign-on](../images/social-sign-on.png)
+![social-sign-on](images/social-sign-on.png)
 
 ### Google+
 
@@ -45,12 +45,12 @@ The Google+ social sign-on _hybrid auth flow_ proceeds in several token exchange
     * client is redirected to the G+ sign-in portal, where user authorizes the app (using G+ JS client API)
     * G+ server sends a `one-time code` back to the client
     * client forwards the `one-time code` to the app server
-    * app server relays the `one-time code` _back_ to the G+ API server (via G+ (OAuth v2)[https://accounts.google.com/o/oauth2/auth] callback URL)
+    * app server relays the `one-time code` _back_ to the G+ API server (via G+ [OAuth v2](https://accounts.google.com/o/oauth2/auth) callback URL)
     * G+ API verifies the `one-time code` has made a round-trip via the app server, and replies with a long-lived `access token`
     * app server uses the long-lived `access token` to make further G+ API calls on behalf of the user
 
 The G+ sign-on requires a file called `client_secrets.json` to authenticate the app with the G+ API server,
-which can be downloaded from the (Google developer site)[https://console.developers.google.com].
+which can be downloaded from the [Google developer site](https://console.developers.google.com).
 
 ### Facebook
 
@@ -59,7 +59,7 @@ provided by the FB API going round-trip through the app server, and upgraded to 
 access token via the FB OAuth v2 API server.
 
 The FB sign-on requires a file called `fb_client_secrets.json` to authenticate the app with the FB API server.
-The file needs to contain an `app_id` and `app_secret`, which can be obtained (Facebook developer site)[https://developers.facebook.com/apps],
+The file needs to contain an `app_id` and `app_secret`, which can be obtained [Facebook developer site](https://developers.facebook.com/apps),
 in the following format:
 
 ``` javascript
@@ -70,6 +70,3 @@ in the following format:
         }
     }
 ```
-
-## Deployment
-
