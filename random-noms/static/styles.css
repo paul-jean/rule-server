@@ -67,7 +67,7 @@ ul.container {
     padding: 0;
 }
 
-.container li {
+.container li, .random_choice {
     display: block;
     border-radius: 5px;
     border-color: #778899;
@@ -75,6 +75,10 @@ ul.container {
     border-style: solid;
     background-color: #AABBCC;
     margin-top: 10px;
+}
+
+div.random_choice {
+    width: 400px;
 }
 
 .container p {
@@ -136,6 +140,10 @@ ul.container {
     text-align: center;
 }
 
+#signinButton {
+    margin-bottom: 20px;
+}
+
 #appetizer {
     clear: both;
     float: left;
@@ -193,7 +201,7 @@ ul.container {
 }
 
 .forms {
-    margin-left: 200px;
+    margin-left: 350px;
 }
 
 .thin {
