@@ -63,7 +63,7 @@ def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     client_id = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
     login_session['state'] = state
-    return render_template('login.html', STATE = state, G_CLIENT_ID = client_id)
+    return render_template('login.html', STATE = state, G_CLIENT_ID = client_id, login_session = login_session)
 
 @app.route('/disconnect')
 def disconnect():
@@ -249,7 +249,6 @@ def fbconnect():
     login_session['username'] = user_data['name']
     login_session['email'] = user_data['email']
     login_session['facebook_id'] = user_data['id']
-    print login_session
 
     stored_token = token.split("=")[1]
     login_session['access_token'] = stored_token
@@ -281,7 +280,7 @@ def fbconnect():
 @app.route('/about/')
 def about():
     """ Show the about page. """
-    return render_template('about.html')
+    return render_template('about.html', login_session = login_session)
 
 def login_required(f):
     """ Decorator to restrict access to users who are logged in. """
@@ -300,8 +299,8 @@ def showRestaurants():
     """
     restaurants = session.query(Restaurant)
     if 'username' not in login_session:
-        return render_template('restaurants_public.html', restaurants = restaurants)
-    return render_template('restaurants.html', restaurants = restaurants)
+        return render_template('restaurants_public.html', restaurants = restaurants, login_session = login_session)
+    return render_template('restaurants.html', restaurants = restaurants, login_session = login_session)
 
 @app.route('/restaurants/JSON/')
 def showRestaurantsJSON():
@@ -309,18 +308,20 @@ def showRestaurantsJSON():
     restaurants = session.query(Restaurant).all()
     return jsonify(Restaurants = [r.serialize for r in restaurants])
 
+@app.route('/random_restaurant/JSON/')
+def randomRestaurantJSON():
+    """ Get a random restaurant in JSON format. """
+    restaurants = session.query(Restaurant).all()
+    num_restaurants = len(restaurants)
+    rand_restaurant_index = randrange(0, num_restaurants)
+    rand_restaurant = restaurants[rand_restaurant_index]
+    return jsonify(rand_restaurant.serialize)
+
 @app.route('/')
-@app.route('/random/', methods = ['GET', 'POST'])
+@app.route('/random/', methods = ['GET'])
 def randomRestaurant():
     """ Get a randomly chosen restaurant. """
-    if request.method == 'POST':
-        restaurants = session.query(Restaurant).all()
-        num_restaurants = len(restaurants)
-        rand_restaurant_index = randrange(0, num_restaurants)
-        rand_restaurant = restaurants[rand_restaurant_index]
-        return render_template('random_choice.html', restaurant = rand_restaurant)
-    else:
-        return render_template('random_button.html')
+    return render_template('random_button.html', login_session = login_session)
 
 def isValidInput(inputString, message = '', redirect = 'showRestaurants'):
     if len(inputString) == 0:
@@ -344,7 +345,7 @@ def newRestaurant():
         flash('Added restaurant: ' + restName)
         return redirect(url_for('showRestaurants'))
     else:
-        return render_template('newRestaurant.html')
+        return render_template('newRestaurant.html', login_session = login_session)
 
 @app.route('/restaurant/<int:rest_id>/edit', methods = ['GET', 'POST'])
 @login_required
@@ -367,7 +368,7 @@ def editRestaurant(rest_id):
         flash('Edited restaurant: ' + restName)
         return redirect(url_for('showRestaurants'))
     else:
-        return render_template('editRestaurant.html', restaurant = restObj)
+        return render_template('editRestaurant.html', restaurant = restObj, login_session = login_session)
 
 @app.route('/restaurant/<int:rest_id>/delete', methods = ['GET', 'POST'])
 @login_required
@@ -384,7 +385,7 @@ def deleteRestaurant(rest_id):
         return redirect(url_for('showRestaurants'))
     else:
         rest = session.query(Restaurant).filter_by(id = rest_id).one()
-        return render_template('deleteRestaurant.html', restaurant = rest)
+        return render_template('deleteRestaurant.html', restaurant = rest, login_session = login_session)
 
 @app.route('/restaurant/<int:rest_id>/')
 @app.route('/restaurant/<int:rest_id>/menu')
@@ -397,10 +398,10 @@ def showMenu(rest_id):
     for i in menuItems:
         i.price = sub('\$', '', i.price)
     if 'user_id' in login_session and restObj.user_id == login_session['user_id']:
-        return render_template('menu.html', restaurant = restObj, items = menuItems)
+        return render_template('menu.html', restaurant = restObj, items = menuItems, login_session = login_session)
     else:
         creator = getUserInfo(restObj.user_id)
-        return render_template('menu_public.html', restaurant = restObj, items = menuItems, creator = creator)
+        return render_template('menu_public.html', restaurant = restObj, items = menuItems, creator = creator, login_session = login_session)
 
 @app.route('/restaurant/<int:rest_id>/menu/JSON/')
 def showMenuJSON(rest_id):
@@ -448,7 +449,7 @@ def newMenuItem(rest_id):
         flash('Added menu item: ' + name)
         return redirect(url_for('showMenu', rest_id = restObj.id))
     else:
-        return render_template('newMenuItem.html', restaurant = restObj)
+        return render_template('newMenuItem.html', restaurant = restObj, login_session = login_session)
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/edit', methods = ['GET', 'POST'])
 @login_required
@@ -483,7 +484,7 @@ def editMenuItem(rest_id, menu_id):
         menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
         return redirect(url_for('showMenu', rest_id = rest_id))
     else:
-        return render_template('editMenuItem.html', restaurant = restObj, item = menuItemObj)
+        return render_template('editMenuItem.html', restaurant = restObj, item = menuItemObj, login_session = login_session)
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/delete', methods = ['GET', 'POST'])
 @login_required
@@ -500,7 +501,7 @@ def deleteMenuItem(rest_id, menu_id):
         flash('Deleted menu item: ' + menuItemObj.name)
         return redirect(url_for('showMenu', rest_id = rest_id))
     else:
-        return render_template('deleteMenuItem.html', restaurant = restObj, item = menuItemObj)
+        return render_template('deleteMenuItem.html', restaurant = restObj, item = menuItemObj, login_session = login_session)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
