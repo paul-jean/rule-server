@@ -10,6 +10,7 @@ from flask import session as login_session
 import random, string
 from db_link import getDBLink
 from functools import wraps
+from urlparse import urlparse
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -323,7 +324,13 @@ def randomRestaurant():
     """ Get a randomly chosen restaurant. """
     return render_template('random_button.html', login_session = login_session)
 
-def isValidInput(inputString, message = '', redirect = 'showRestaurants'):
+def isValidUrl(urlString):
+    urlDict = urlparse(urlString)
+    if urlDict.netloc == '' or urlDict.path == '':
+        return False
+    return True
+
+def isValidInput(inputString):
     if len(inputString) == 0:
         return False
     return True
@@ -440,9 +447,12 @@ def newMenuItem(rest_id):
             flash('Item price is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
         course = clean(request.form['course'])
+        picture = clean(request.form['picture'])
+        if not isValidUrl(picture):
+            picture = None
         newItem = MenuItem(
                 name = name, course = course,
-                description = description, price = price,
+                description = description, price = price, picture = picture,
                 restaurant_id = rest_id, user_id = restObj.user_id)
         session.add(newItem)
         session.commit()
@@ -473,10 +483,14 @@ def editMenuItem(rest_id, menu_id):
         if not isValidInput(price):
             flash('Item price is required')
             return redirect(url_for('showMenu', rest_id = rest_id))
+        picture = clean(request.form['picture'])
+        if not isValidUrl(picture):
+            picture = None
         course = clean(request.form['course'])
         menuItemObj.name = name
         menuItemObj.description = description
         menuItemObj.price = price
+        menuItemObj.picture = picture
         menuItemObj.course = course
         session.add(menuItemObj)
         session.commit()

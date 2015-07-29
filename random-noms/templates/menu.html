@@ -19,9 +19,17 @@
                 <div class="center">
                     <h3>{{i.name}}</h3>
                     <p>{{i.description}}</p><br>
-                    <p>${{i.price}}</p><br>
+                    <span class='price'><p>${{i.price}}</p></span><br>
                     <p>{{i.course}}</p>
                 </div>
+                {% if i.picture != None %}
+                <div class='food_pic'>
+                    <figure>
+                        <img src='{{i.picture}}'>
+                        <figcaption>{{i.name}}</figcaption>
+                    </figure>
+                </div>
+                {% endif %}
                 <div class="center">
                     <div class="button row">
                         <form action="{{ url_for('editMenuItem', rest_id=restaurant.id, menu_id=i.id) }}" method="GET">

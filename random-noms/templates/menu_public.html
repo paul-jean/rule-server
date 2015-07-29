@@ -24,6 +24,14 @@
                         <h3>{{i.name}}</h3>
                         <p>{{i.description}}</p><br>
                         <span class='price'><p>${{i.price}}</p></span><br>
+                        {% if i.picture != None %}
+                        <div class='food_pic_small'>
+                            <figure>
+                                <img src='{{i.picture}}'>
+                                <figcaption>{{i.name}}</figcaption>
+                            </figure>
+                        </div>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% endfor %}
@@ -36,6 +44,14 @@
                         <h3>{{i.name}}</h3>
                         <p>{{i.description}}</p><br>
                         <span class='price'><p>${{i.price}}</p></span><br>
+                        {% if i.picture != None %}
+                        <div class='food_pic_small'>
+                            <figure>
+                                <img src='{{i.picture}}'>
+                                <figcaption>{{i.name}}</figcaption>
+                            </figure>
+                        </div>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% endfor %}
@@ -48,6 +64,14 @@
                         <h3>{{i.name}}</h3>
                         <p>{{i.description}}</p><br>
                         <span class='price'><p>${{i.price}}</p></span><br>
+                        {% if i.picture != None %}
+                        <div class='food_pic_small'>
+                            <figure>
+                                <img src='{{i.picture}}'>
+                                <figcaption>{{i.name}}</figcaption>
+                            </figure>
+                        </div>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% endfor %}
@@ -60,6 +84,14 @@
                         <h3>{{i.name}}</h3>
                         <p>{{i.description}}</p><br>
                         <span class='price'><p>${{i.price}}</p></span><br>
+                        {% if i.picture != None %}
+                        <div class='food_pic_small'>
+                            <figure>
+                                <img src='{{i.picture}}'>
+                                <figcaption>{{i.name}}</figcaption>
+                            </figure>
+                        </div>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% endfor %}

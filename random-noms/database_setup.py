@@ -38,6 +38,7 @@ class MenuItem(Base):
     price = Column(String(8))
     restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
     restaurant = relationship(Restaurant)
+    picture = Column(String(250), nullable=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
@@ -49,7 +50,8 @@ class MenuItem(Base):
                 'description': self.description,
                 'id': self.id,
                 'price': self.price,
-                'course': self.course
+                'course': self.course,
+                'picture': self.picture
         }
 
 # end
