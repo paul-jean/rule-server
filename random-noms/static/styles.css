@@ -249,3 +249,12 @@ div.creator {
 .creator img {
     width: 200px;
 }
+
+.food_pic_small img {
+    width: 100px;
+}
+
+.food_pic_small figure {
+    margin-left: 0;
+    margin-top: 0;
+}
