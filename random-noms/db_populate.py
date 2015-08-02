@@ -13,30 +13,100 @@ if __name__ == '__main__':
     DBSession = sessionmaker(bind = engine)
     session = DBSession()
 
-    pj_name = "Paul-Jean Letourneau"
     pj_email = "paul.jean.letourneau@gmail.com"
-    pj_picture = "https://lh3.googleusercontent.com/-wx2tKtlpIL8/AAAAAAAAAAI/AAAAAAAAADc/7vWBOFHN47E/photo.jpg"
-    pj_user = User(name = pj_name, email = pj_email, picture = pj_picture)
-    session.add(pj_user)
-    session.commit()
-
-    # user = session.query(User).filter_by(email = pj_email).one()
+    pj_user_existing = session.query(User).filter_by(email = pj_email).first()
+    if pj_user_existing:
+        pj_user = pj_user_existing
+    else:
+        pj_name = "Paul-Jean Letourneau"
+        pj_picture = "https://lh3.googleusercontent.com/-wx2tKtlpIL8/AAAAAAAAAAI/AAAAAAAAADc/7vWBOFHN47E/photo.jpg"
+        pj_user = User(name = pj_name, email = pj_email, picture = pj_picture)
+        print "Adding user: " + pj_name
+        session.add(pj_user)
+        session.commit()
 
     rest_name = "Samantha's Super Sammies"
     rest_user_id = pj_user.id
-    rest = Restaurant(name = rest_name, user_id = rest_user_id)
-    session.add(rest)
-    session.commit()
+    existing_rest = session.query(Restaurant).filter_by(name = rest_name).first()
+    if existing_rest:
+        rest = existing_rest
+    else:
+        rest = Restaurant(name = rest_name, user_id = rest_user_id)
+        print "Adding restaurant: " + rest_name
+        session.add(rest)
+        session.commit()
 
-    item_name = "rose's rosewater rotie"
-    item_course = "Entree"
-    item_description = "rotie with a hint of rosewater"
-    item_price = "5.99"
-    item_picture = "http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg"
-    item = MenuItem(
-        name = item_name, course = item_course,
-        description = item_description, price = item_price, picture = item_picture,
-        restaurant_id = rest.id, user_id = rest.user_id)
-    session.add(item)
-    session.commit()
+    item_name = "Rosewater Roti"
+    existing_item = session.query(MenuItem).filter_by(restaurant_id = rest.id, name = item_name).first()
+    if not existing_item:
+        item_course = "Entree"
+        item_description = "Roti with a hint of rosewater"
+        item_price = "5.99"
+        item_picture = "http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg"
+        item = MenuItem(
+            name = item_name, course = item_course,
+            description = item_description, price = item_price, picture = item_picture,
+            restaurant_id = rest.id, user_id = rest.user_id)
+        print "Adding item: " + item_name
+        session.add(item)
+        session.commit()
 
+    item_name = "Super Sunday Ham Sammie"
+    existing_item = session.query(MenuItem).filter_by(restaurant_id = rest.id, name = item_name).first()
+    if not existing_item:
+        item_course = "Entree"
+        item_description = "Ham sammich (only on Sundays)"
+        item_price = "4.99"
+        item_picture = "http://blogs.plos.org/obesitypanacea/files/2014/10/sandwich.jpg"
+        item = MenuItem(
+            name = item_name, course = item_course,
+            description = item_description, price = item_price, picture = item_picture,
+            restaurant_id = rest.id, user_id = rest.user_id)
+        print "Adding item: " + item_name
+        session.add(item)
+        session.commit()
+
+    item_name = "Sam's Iced Tea"
+    existing_item = session.query(MenuItem).filter_by(restaurant_id = rest.id, name = item_name).first()
+    if not existing_item:
+        item_course = "Beverege"
+        item_description = "Mint, green, or Sam's special blend"
+        item_price = "1.99"
+        item_picture = "https://upload.wikimedia.org/wikipedia/commons/e/e1/NCI_iced_tea.jpg"
+        item = MenuItem(
+            name = item_name, course = item_course,
+            description = item_description, price = item_price, picture = item_picture,
+            restaurant_id = rest.id, user_id = rest.user_id)
+        print "Adding item: " + item_name
+        session.add(item)
+        session.commit()
+
+    item_name = "Sam's Sweet Ice Cream Sam'wich"
+    existing_item = session.query(MenuItem).filter_by(restaurant_id = rest.id, name = item_name).first()
+    if not existing_item:
+        item_course = "Dessert"
+        item_description = "Sandwich with a sweet surprise"
+        item_price = "3.99"
+        item_picture = "https://michaelstvtray.files.wordpress.com/2013/08/ice-cream-sandwich.jpg"
+        item = MenuItem(
+            name = item_name, course = item_course,
+            description = item_description, price = item_price, picture = item_picture,
+            restaurant_id = rest.id, user_id = rest.user_id)
+        print "Adding item: " + item_name
+        session.add(item)
+        session.commit()
+
+    item_name = "Pre-sandwich pickle plate"
+    existing_item = session.query(MenuItem).filter_by(restaurant_id = rest.id, name = item_name).first()
+    if not existing_item:
+        item_course = "Appetizer"
+        item_description = "Brine Pickles of many varieties"
+        item_price = "3.99"
+        item_picture = "http://www.thedeliciouslife.com/wp-content/uploads/2010/11/salts-cure-pickle-plate.jpg"
+        item = MenuItem(
+            name = item_name, course = item_course,
+            description = item_description, price = item_price, picture = item_picture,
+            restaurant_id = rest.id, user_id = rest.user_id)
+        print "Adding item: " + item_name
+        session.add(item)
+        session.commit()
