@@ -52,6 +52,81 @@ Start the app locally using `python`:
 
 ... and navigate to `localhost` port 5000.
 
+## API endpoints
+
+### All restaurants
+
+Use the endpoint `restaurants/JSON` to get a list of restaurants in the database:
+
+```JSON
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurants/JSON
+{
+  "Restaurants": [
+    {
+      "name": "Samantha's Super Sammies",
+      "id": 1
+    }
+  ]
+}
+```
+### Randomly chosen restaurant
+
+Use the endpoint `random_restaurant/JSON` to get a randomly chosen restaurant:
+
+```JSON
+agrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/random_restaurant/JSON
+{
+  "name": "Samantha's Super Sammies",
+  "id": 1
+}
+```
+
+### Menu items
+
+Use the endpoint `restaurant/<rest_id>/menu/JSON` to get the menu for a given restaurant (with restaurant id `rest_id`):
+
+```JSON
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurant/1/menu/JSON
+{
+  "MenuItems": [
+    {
+      "picture": "http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg",
+      "name": "Rosewater Roti",
+      "price": "5.99",
+      "course": "Entree",
+      "id": 1,
+      "description": "Roti with a hint of rosewater"
+    },
+    {
+      "picture": "http://blogs.plos.org/obesitypanacea/files/2014/10/sandwich.jpg",
+      "name": "Super Sunday Ham Sammie",
+      "price": "4.99",
+      "course": "Entree",
+      "id": 2,
+      "description": "Ham sammich (only on Sundays)"
+    },
+    ...
+}
+```
+
+### Menu item
+
+Use the endpoint `restaurant/<rest_id>/menu/<menu_id>/JSON` to get data for a particular menu item (with menu item id `menu_id`):
+
+```JSON
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurant/1/menu/5/JSON
+{
+  "MenuItem": {
+    "picture": "http://www.thedeliciouslife.com/wp-content/uploads/2010/11/salts-cure-pickle-plate.jpg",
+    "name": "Pre-sandwich pickle plate",
+    "price": "3.99",
+    "course": "Appetizer",
+    "id": 5,
+    "description": "Brine Pickles of many varieties"
+  }
+}
+```
+
 ## Social sign-on
 
 The app allows the user to log in via Google+ and Facebook social sign-on buttons:
