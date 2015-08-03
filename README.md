@@ -19,6 +19,29 @@ Users can click the "I'm feeling hungry" button on the homepage:
 
 ## App setup
 
+### Required python modules
+
+See the output of `pip freeze -l` for the required python modules (also contained in `requirements.txt`) :
+
+```bash
+    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ pip freeze -l
+    Flask==0.9
+    Flask-Login==0.1.3
+    Markdown==2.6.2
+    Werkzeug==0.8.3
+    bleach==1.4.1
+    gunicorn==19.3.0
+    httplib2==0.9.1
+    oauth2client==1.4.11
+    pyasn1==0.1.7
+    pyasn1-modules==0.0.5
+    rsa==3.1.4
+    six==1.9.0
+    testresources==0.2.7
+```
+
+### Running locally
+
 Start the app locally using `python`:
 
 ``` bash
