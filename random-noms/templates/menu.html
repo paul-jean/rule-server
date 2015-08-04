@@ -9,6 +9,11 @@
         <div class="container">
             <h1>{{restaurant.name}} menu</h1>
             {% include 'flashes.html' %}
+            <div class="button center">
+                <form action="{{ url_for('newMenuItem', rest_id=restaurant.id) }}" method="GET">
+                    <button type="submit">New menu item</button>
+                </form>
+            </div>
             <div id='menu' class='center'>
                 <div id='appetizer'>
                     <h2>Appetizers</h2>
