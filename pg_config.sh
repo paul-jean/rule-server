@@ -15,4 +15,5 @@ pip install Flask-Login==0.1.3
 pip install oauth2client
 pip install requests
 pip install httplib2
+pip install dict2xml
 wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh

@@ -11,6 +11,8 @@ import random, string
 from db_link import getDBLink
 from functools import wraps
 from urlparse import urlparse
+from dict2xml import dict2xml as xmlify
+from flask import Response
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -309,14 +311,33 @@ def showRestaurantsJSON():
     restaurants = session.query(Restaurant).all()
     return jsonify(Restaurants = [r.serialize for r in restaurants])
 
-@app.route('/random_restaurant/JSON/')
-def randomRestaurantJSON():
-    """ Get a random restaurant in JSON format. """
+@app.route('/restaurants/XML/')
+def showRestaurantsXML():
+    """ List all restaurants in XML format. """
+    restaurants = session.query(Restaurant).all()
+    rs = {'restaurant': [r.serialize for r in restaurants]}
+    return Response(xmlify(rs, wrap = 'Restaurants'), mimetype = 'text/xml')
+
+def getRandomRestaurant():
+    """ Get a random restaurant from the database. """
     restaurants = session.query(Restaurant).all()
     num_restaurants = len(restaurants)
     rand_restaurant_index = randrange(0, num_restaurants)
     rand_restaurant = restaurants[rand_restaurant_index]
+    return rand_restaurant
+
+@app.route('/random_restaurant/JSON/')
+def randomRestaurantJSON():
+    """ Get a random restaurant in JSON format. """
+    rand_restaurant = getRandomRestaurant()
     return jsonify(rand_restaurant.serialize)
+
+@app.route('/random_restaurant/XML/')
+def randomRestaurantXML():
+    """ Get a random restaurant in XML format. """
+    rand_restaurant = getRandomRestaurant()
+    d = { 'restaurant': rand_restaurant.serialize }
+    return Response(xmlify(d, wrap = 'RandomRestaurant'), mimetype = 'text/xml')
 
 @app.route('/')
 @app.route('/random/', methods = ['GET'])
@@ -418,12 +439,29 @@ def showMenuJSON(rest_id):
         i.price = sub('\$', '', i.price)
     return jsonify(MenuItems = [i.serialize for i in menuItems])
 
+@app.route('/restaurant/<int:rest_id>/menu/XML/')
+def showMenuXML(rest_id):
+    """ List all menu items for a restaurant in XML format. """
+    menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
+    for i in menuItems:
+        i.price = sub('\$', '', i.price)
+    ms = { 'menu_item': [m.serialize for m in menuItems] }
+    return Response(xmlify(ms, wrap = 'MenuItems'), mimetype = 'text/xml')
+
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/JSON/')
 def showMenuItemJSON(rest_id, menu_id):
     """ List properties of a menu item in JSON format. """
     menuItem = session.query(MenuItem).filter_by(restaurant_id = rest_id, id = menu_id).one()
     menuItem.price = sub('\$', '', menuItem.price)
     return jsonify(MenuItem = menuItem.serialize)
+
+@app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/XML/')
+def showMenuItemXML(rest_id, menu_id):
+    """ List properties of a menu item in XML format. """
+    menuItem = session.query(MenuItem).filter_by(restaurant_id = rest_id, id = menu_id).one()
+    menuItem.price = sub('\$', '', menuItem.price)
+    m = { 'menu_item': menuItem.serialize }
+    return Response(xmlify(m, wrap = 'MenuItem'), mimetype = 'text/xml')
 
 @app.route('/restaurant/<int:rest_id>/menu/new', methods = ['GET', 'POST'])
 @login_required
