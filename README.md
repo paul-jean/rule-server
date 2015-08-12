@@ -24,20 +24,21 @@ Users can click the "I'm feeling hungry" button on the homepage:
 See the output of `pip freeze -l` for the required python modules (also contained in `requirements.txt`) :
 
 ```bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ pip freeze -l
-    Flask==0.9
-    Flask-Login==0.1.3
-    Markdown==2.6.2
-    Werkzeug==0.8.3
-    bleach==1.4.1
-    gunicorn==19.3.0
-    httplib2==0.9.1
-    oauth2client==1.4.11
-    pyasn1==0.1.7
-    pyasn1-modules==0.0.5
-    rsa==3.1.4
-    six==1.9.0
-    testresources==0.2.7
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ pip freeze -l
+Flask==0.9
+Flask-Login==0.1.3
+Markdown==2.6.2
+Werkzeug==0.8.3
+bleach==1.4.1
+dict2xml==1.3
+gunicorn==19.3.0
+httplib2==0.9.1
+oauth2client==1.4.11
+pyasn1==0.1.7
+pyasn1-modules==0.0.5
+rsa==3.1.4
+six==1.9.0
+testresources==0.2.7
 ```
 
 ### Running locally
@@ -45,9 +46,9 @@ See the output of `pip freeze -l` for the required python modules (also containe
 Start the app locally using `python`:
 
 ``` bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ python project.py
-     * Running on http://0.0.0.0:5000/
-     * Restarting with reloader
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ python project.py
+ * Running on http://0.0.0.0:5000/
+ * Restarting with reloader
 ```
 
 ... and navigate to `localhost` port 5000.
@@ -61,15 +62,15 @@ Start the app locally using `python`:
 Use the endpoint `restaurants/JSON` to get a list of restaurants in the database in JSON format:
 
 ```JSON
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurants/JSON
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurants/JSON
+{
+  "Restaurants": [
     {
-      "Restaurants": [
-        {
-          "name": "Samantha's Super Sammies",
-          "id": 1
-        }
-      ]
+      "name": "Samantha's Super Sammies",
+      "id": 1
     }
+  ]
+}
 ```
 
 #### XML
@@ -77,25 +78,25 @@ Use the endpoint `restaurants/JSON` to get a list of restaurants in the database
 Use the endpoint `restaurants/XML` to get a list of restaurants in the database in XML format:
 
 ``` bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/restaurants/XML/
-    <Restaurants>
-      <restaurant>
-        <id>1</id>
-        <name>Samantha's Super Sammies</name>
-      </restaurant>
-      <restaurant>
-        <id>3</id>
-        <name>Other Rest</name>
-      </restaurant>
-      <restaurant>
-        <id>6</id>
-        <name>TestwoRaunt</name>
-      </restaurant>
-      <restaurant>
-        <id>7</id>
-        <name>Hello World</name>
-      </restaurant>
-    </Restaurants>
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/restaurants/XML/
+<Restaurants>
+  <restaurant>
+    <id>1</id>
+    <name>Samantha's Super Sammies</name>
+  </restaurant>
+  <restaurant>
+    <id>3</id>
+    <name>Other Rest</name>
+  </restaurant>
+  <restaurant>
+    <id>6</id>
+    <name>TestwoRaunt</name>
+  </restaurant>
+  <restaurant>
+    <id>7</id>
+    <name>Hello World</name>
+  </restaurant>
+</Restaurants>
 ```
 
 ### Randomly chosen restaurant
@@ -105,11 +106,11 @@ Use the endpoint `restaurants/XML` to get a list of restaurants in the database 
 Use the endpoint `random_restaurant/JSON` to get a randomly chosen restaurant in JSON format:
 
 ``` bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/random_restaurant/JSON
-    {
-      "name": "Samantha's Super Sammies",
-      "id": 1
-    }
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/random_restaurant/JSON
+{
+  "name": "Samantha's Super Sammies",
+  "id": 1
+}
 ```
 
 #### XML
@@ -117,13 +118,13 @@ Use the endpoint `random_restaurant/JSON` to get a randomly chosen restaurant in
 Use the endpoint `random_restaurant/XML` to get a randomly chosen restaurant in XML format:
 
 ``` bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/random_restaurant/XML/
-    <RandomRestaurant>
-      <restaurant>
-        <id>7</id>
-        <name>Hello World</name>
-      </restaurant>
-    </RandomRestaurant>
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/random_restaurant/XML/
+<RandomRestaurant>
+  <restaurant>
+    <id>7</id>
+    <name>Hello World</name>
+  </restaurant>
+</RandomRestaurant>
 ```
 
 ### Menu items
@@ -133,27 +134,27 @@ Use the endpoint `random_restaurant/XML` to get a randomly chosen restaurant in 
 Use the endpoint `restaurant/<rest_id>/menu/JSON` to get the menu for a given restaurant (with restaurant id `rest_id`) in JSON format:
 
 ```JSON
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurant/1/menu/JSON
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurant/1/menu/JSON
+{
+  "MenuItems": [
     {
-      "MenuItems": [
-        {
-          "picture": "http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg",
-          "name": "Rosewater Roti",
-          "price": "5.99",
-          "course": "Entree",
-          "id": 1,
-          "description": "Roti with a hint of rosewater"
-        },
-        {
-          "picture": "http://blogs.plos.org/obesitypanacea/files/2014/10/sandwich.jpg",
-          "name": "Super Sunday Ham Sammie",
-          "price": "4.99",
-          "course": "Entree",
-          "id": 2,
-          "description": "Ham sammich (only on Sundays)"
-        },
-        ...
-    }
+      "picture": "http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg",
+      "name": "Rosewater Roti",
+      "price": "5.99",
+      "course": "Entree",
+      "id": 1,
+      "description": "Roti with a hint of rosewater"
+    },
+    {
+      "picture": "http://blogs.plos.org/obesitypanacea/files/2014/10/sandwich.jpg",
+      "name": "Super Sunday Ham Sammie",
+      "price": "4.99",
+      "course": "Entree",
+      "id": 2,
+      "description": "Ham sammich (only on Sundays)"
+    },
+    ...
+}
 ```
 
 #### XML
@@ -161,26 +162,26 @@ Use the endpoint `restaurant/<rest_id>/menu/JSON` to get the menu for a given re
 Use the endpoint `restaurant/<rest_id>/menu/XML` to get the menu for a given restaurant (with restaurant id `rest_id`) in XML format:
 
 ``` bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/restaurant/1/menu/XML/
-    <MenuItems>
-      <menu_item>
-        <course>Entree</course>
-        <description>Roti with a hint of rosewater</description>
-        <id>1</id>
-        <name>Rosewater Roti</name>
-        <picture>http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg</picture>
-        <price>5.99</price>
-      </menu_item>
-      <menu_item>
-        <course>Entree</course>
-        <description>Ham sammich (only on Sundays)</description>
-        <id>2</id>
-        <name>Super Sunday Ham Sammie</name>
-        <picture>http://blogs.plos.org/obesitypanacea/files/2014/10/sandwich.jpg</picture>
-        <price>4.99</price>
-      </menu_item>
-      ...
-    </MenuItems>
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/restaurant/1/menu/XML/
+<MenuItems>
+  <menu_item>
+    <course>Entree</course>
+    <description>Roti with a hint of rosewater</description>
+    <id>1</id>
+    <name>Rosewater Roti</name>
+    <picture>http://massystorestt.com/wp-content/uploads/2015/05/Thawa-Roti.jpg</picture>
+    <price>5.99</price>
+  </menu_item>
+  <menu_item>
+    <course>Entree</course>
+    <description>Ham sammich (only on Sundays)</description>
+    <id>2</id>
+    <name>Super Sunday Ham Sammie</name>
+    <picture>http://blogs.plos.org/obesitypanacea/files/2014/10/sandwich.jpg</picture>
+    <price>4.99</price>
+  </menu_item>
+  ...
+</MenuItems>
 ```
 
 ### Menu item
@@ -190,17 +191,17 @@ Use the endpoint `restaurant/<rest_id>/menu/XML` to get the menu for a given res
 Use the endpoint `restaurant/<rest_id>/menu/<menu_id>/JSON` to get data for a particular menu item (with menu item id `menu_id`) in JSON format:
 
 ```JSON
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurant/1/menu/5/JSON
-    {
-      "MenuItem": {
-        "picture": "http://www.thedeliciouslife.com/wp-content/uploads/2010/11/salts-cure-pickle-plate.jpg",
-        "name": "Pre-sandwich pickle plate",
-        "price": "3.99",
-        "course": "Appetizer",
-        "id": 5,
-        "description": "Brine Pickles of many varieties"
-      }
-    }
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl -L http://localhost:5000/restaurant/1/menu/5/JSON
+{
+  "MenuItem": {
+    "picture": "http://www.thedeliciouslife.com/wp-content/uploads/2010/11/salts-cure-pickle-plate.jpg",
+    "name": "Pre-sandwich pickle plate",
+    "price": "3.99",
+    "course": "Appetizer",
+    "id": 5,
+    "description": "Brine Pickles of many varieties"
+  }
+}
 ```
 
 #### XML
@@ -208,17 +209,17 @@ Use the endpoint `restaurant/<rest_id>/menu/<menu_id>/JSON` to get data for a pa
 Use the endpoint `restaurant/<rest_id>/menu/<menu_id>/XML` to get data for a particular menu item (with menu item id `menu_id`) in XML format:
 
 ``` bash
-    vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/restaurant/1/menu/5/XML/
-    <MenuItem>
-      <menu_item>
-        <course>Appetizer</course>
-        <description>Brine Pickles of many varieties</description>
-        <id>5</id>
-        <name>Pre-sandwich pickle plate</name>
-        <picture>http://www.thedeliciouslife.com/wp-content/uploads/2010/11/salts-cure-pickle-plate.jpg</picture>
-        <price>3.99</price>
-      </menu_item>
-    </MenuItem>
+vagrant@vagrant-ubuntu-trusty-32:/vagrant/random-noms$ curl localhost:5000/restaurant/1/menu/5/XML/
+<MenuItem>
+  <menu_item>
+    <course>Appetizer</course>
+    <description>Brine Pickles of many varieties</description>
+    <id>5</id>
+    <name>Pre-sandwich pickle plate</name>
+    <picture>http://www.thedeliciouslife.com/wp-content/uploads/2010/11/salts-cure-pickle-plate.jpg</picture>
+    <price>3.99</price>
+  </menu_item>
+</MenuItem>
 ```
 
 ## Social sign-on
@@ -255,10 +256,10 @@ The file needs to contain an `app_id` and `app_secret`, which can be obtained [F
 in the following format:
 
 ``` javascript
-    {
-        "web": {
-            "app_id": "XXXXXXX",
-            "app_secret": "XXXXXX"
-        }
+{
+    "web": {
+        "app_id": "XXXXXXX",
+        "app_secret": "XXXXXX"
     }
+}
 ```
