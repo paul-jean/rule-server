@@ -1,3 +1,26 @@
+"""
+Random Noms: a simple web app to organize restaurants and menus.
+Provides create, read, update, and delete (CRUD) operations for
+restaurants and their menu items. The main app page lets the user
+obtain a randomly chosen restaurant (randomly chosen "noms")
+from the database.
+
+User must log in using social sign-on (FB or G+) to perform CRUD
+operations. Authentication and authorization done using a hybrid auth
+flow proceeding in several token exchanges. A one-time code is sent
+from the auth API to the client, relayed to the app server, and back
+to the auth API. After the one-time code round-trip, the auth API
+provides a long-lived access token to the app server for making
+API requests on behalf of the user.
+
+Implemented using the Flask framework, Postgres, and the SQLAlchemy database ORM.
+
+Created as an assignment in the Udacity Full Stack Nanodegree program.
+
+Author: Paul-Jean Letourneau
+Date: August 2015
+"""
+
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -37,7 +60,15 @@ DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
 def createUser(login_session):
-    """ Create a new user. """
+    """
+    Creates a new user.
+
+    Args:
+        login_session: session dict, containing username, email, picture, etc
+
+    Returns:
+        The newly created user id.
+    """
     newUser = User(
             name = login_session['username'],
             email = login_session['email'],
