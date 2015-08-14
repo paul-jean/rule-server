@@ -1,5 +1,6 @@
 """
 Random Noms: a simple web app to organize restaurants and menus.
+
 Provides create, read, update, and delete (CRUD) operations for
 restaurants and their menu items. The main app page lets the user
 obtain a randomly chosen restaurant (randomly chosen "noms")
@@ -79,12 +80,28 @@ def createUser(login_session):
     return user.id
 
 def getUserInfo(user_id):
-    """ Get profile info for a user. """
+    """
+    Get profile info for a user.
+
+    Args:
+        user_id: user id integer
+
+    Returns:
+        The user object.
+    """
     user = session.query(User).filter_by(id = user_id).one()
     return user
 
 def getUserID(user_email):
-    """ Get user's id from their email address. """
+    """
+    Get user's id from their email address.
+
+    Args:
+        user_email: user's email address
+
+    Returns:
+        The user id.
+    """
     try:
         user = session.query(User).filter_by(email = user_email).one()
         return user.id
@@ -261,7 +278,6 @@ def fbconnect():
     app_id = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
     app_secret = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
-    print url
 
     # https://code.google.com/p/httplib2/issues/detail?id=303
     httplib2.debuglevel = 4
@@ -277,7 +293,6 @@ def fbconnect():
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     user_data = json.loads(result)
-    print user_data
 
     login_session['provider'] = 'facebook'
     login_session['username'] = user_data['name']
@@ -317,7 +332,16 @@ def about():
     return render_template('about.html', login_session = login_session)
 
 def login_required(f):
-    """ Decorator to restrict access to users who are logged in. """
+    """
+    Decorator to restrict access to users who are logged in.
+
+    Args:
+        f: input function
+
+    Returns:
+        Redirects to the login page if the user is not logged in.
+        Otherwise executes the given function.
+    """
     @wraps(f)
     def login_wrapped(*args, **kwargs):
         if 'username' not in login_session:
@@ -327,9 +351,9 @@ def login_required(f):
 
 @app.route('/restaurants/')
 def showRestaurants():
-    """ List all restaurants.
-        For users not signed in, show public restaurant page with no edit
-        features.
+    """
+        List all restaurants.
+        For users not signed in, show public restaurant page with no edit features.
     """
     restaurants = session.query(Restaurant)
     if 'username' not in login_session:
@@ -377,12 +401,30 @@ def randomRestaurant():
     return render_template('random_button.html', login_session = login_session)
 
 def isValidUrl(urlString):
+    """
+    Verify a url is valid.
+
+    Args:
+        urlString: url to verify
+
+    Returns:
+        True if the url is valid, False otherwise.
+    """
     urlDict = urlparse(urlString)
     if urlDict.netloc == '' or urlDict.path == '':
         return False
     return True
 
 def isValidInput(inputString):
+    """
+    Verify a form input is valid.
+
+    Args:
+        inputString: form input to verify
+
+    Returns:
+        True if the input is valid, False otherwise.
+    """
     if len(inputString) == 0:
         return False
     return True
@@ -409,7 +451,15 @@ def newRestaurant():
 @app.route('/restaurant/<int:rest_id>/edit', methods = ['GET', 'POST'])
 @login_required
 def editRestaurant(rest_id):
-    """ Edit a restaurant. """
+    """
+    Edit a restaurant.
+
+    Args:
+        rest_id: restaurant id
+
+    Returns:
+        Renders the restaurant page.
+    """
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if restObj.user_id != login_session['user_id']:
         flash('You are not authorized to edit this restaurant.')
@@ -432,7 +482,15 @@ def editRestaurant(rest_id):
 @app.route('/restaurant/<int:rest_id>/delete', methods = ['GET', 'POST'])
 @login_required
 def deleteRestaurant(rest_id):
-    """ Delete a restaurant. """
+    """
+    Delete a restaurant.
+
+    Args:
+        rest_id: restaurant id
+
+    Returns:
+        Renders the delete restaurant page.
+    """
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if restObj.user_id != login_session['user_id']:
         flash('You are not authorized to delete this restaurant.')
@@ -449,8 +507,15 @@ def deleteRestaurant(rest_id):
 @app.route('/restaurant/<int:rest_id>/')
 @app.route('/restaurant/<int:rest_id>/menu')
 def showMenu(rest_id):
-    """ List all menu items for a restaurant.
-        For users not logged in, show the public menu with no edit features.
+    """
+    List all menu items for a restaurant.
+    For users not logged in, show the public menu with no edit features.
+
+    Args:
+        rest_id: restaurant id
+
+    Returns:
+        Renders the restaurant's menu page.
     """
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
@@ -464,7 +529,15 @@ def showMenu(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/JSON/')
 def showMenuJSON(rest_id):
-    """ List all menu items for a restaurant in JSON format. """
+    """
+    List all menu items for a restaurant in JSON format.
+
+    Args:
+        rest_id: restaurant id
+
+    Returns:
+        Restaurant menu in JSON format.
+    """
     menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
     for i in menuItems:
         i.price = sub('\$', '', i.price)
@@ -472,7 +545,15 @@ def showMenuJSON(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/XML/')
 def showMenuXML(rest_id):
-    """ List all menu items for a restaurant in XML format. """
+    """
+    List all menu items for a restaurant in XML format.
+
+    Args:
+        rest_id: restaurant id
+
+    Returns:
+        Restaurant menu in XML format.
+    """
     menuItems = session.query(MenuItem).filter_by(restaurant_id = rest_id).all()
     for i in menuItems:
         i.price = sub('\$', '', i.price)
@@ -481,14 +562,32 @@ def showMenuXML(rest_id):
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/JSON/')
 def showMenuItemJSON(rest_id, menu_id):
-    """ List properties of a menu item in JSON format. """
+    """
+    List properties of a menu item in JSON format.
+
+    Args:
+        rest_id: restaurant id
+        menu_id: menu id
+
+    Returns:
+        Menu item in JSON format.
+    """
     menuItem = session.query(MenuItem).filter_by(restaurant_id = rest_id, id = menu_id).one()
     menuItem.price = sub('\$', '', menuItem.price)
     return jsonify(MenuItem = menuItem.serialize)
 
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/XML/')
 def showMenuItemXML(rest_id, menu_id):
-    """ List properties of a menu item in XML format. """
+    """
+    List properties of a menu item in XML format.
+
+    Args:
+        rest_id: restaurant id
+        menu_id: menu id
+
+    Returns:
+        Menu item in XML format.
+    """
     menuItem = session.query(MenuItem).filter_by(restaurant_id = rest_id, id = menu_id).one()
     menuItem.price = sub('\$', '', menuItem.price)
     m = { 'menu_item': menuItem.serialize }
@@ -497,7 +596,15 @@ def showMenuItemXML(rest_id, menu_id):
 @app.route('/restaurant/<int:rest_id>/menu/new', methods = ['GET', 'POST'])
 @login_required
 def newMenuItem(rest_id):
-    """ Create a new menu item. """
+    """
+    Create a new menu item.
+
+    Args:
+        rest_id: restaurant id
+
+    Returns:
+        Renders the menu item creation page.
+    """
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if restObj.user_id != login_session['user_id']:
         flash('You are not authorized to modify this menu.')
@@ -533,7 +640,16 @@ def newMenuItem(rest_id):
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/edit', methods = ['GET', 'POST'])
 @login_required
 def editMenuItem(rest_id, menu_id):
-    """ Edit a menu item. """
+    """
+    Edit a menu item.
+
+    Args:
+        rest_id: restaurant id
+        menu_id: menu id
+
+    Returns:
+        Renders the menu item edit page.
+    """
     menuItemObj = session.query(MenuItem).filter_by(id = menu_id).one()
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if restObj.user_id != login_session['user_id']:
@@ -572,7 +688,16 @@ def editMenuItem(rest_id, menu_id):
 @app.route('/restaurant/<int:rest_id>/menu/<int:menu_id>/delete', methods = ['GET', 'POST'])
 @login_required
 def deleteMenuItem(rest_id, menu_id):
-    """ Delete a menu item. """
+    """
+    Delete a menu item.
+
+    Args:
+        rest_id: restaurant id
+        menu_id: menu id
+
+    Returns:
+        Renders the delete menu item page.
+    """
     menuItemObj = session.query(MenuItem).filter_by(id = menu_id).one()
     restObj = session.query(Restaurant).filter_by(id = rest_id).one()
     if restObj.user_id != login_session['user_id']:
