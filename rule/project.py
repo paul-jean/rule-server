@@ -4,6 +4,8 @@ Author: Paul-Jean Letourneau
 Date: Dec 2015
 """
 
+from random import randrange
+import pdb
 """
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
@@ -66,21 +68,34 @@ def step(rule_map, row):
     new_row = [rule_map[nb] for nb in new_row]
     return new_row
 
-def run(rule_num, width=100, steps=100):
+def run(rule_num, init='random', steps=100, width=100):
     """
-    Runs rule rule_num for the given number of steps.
+    Runs rule rule_num from the given initial condition, for the given number of steps.
 
     Args:
-        rule_num
+        rule_num - rule number (0 ... 255)
+        init - initial condition row, if 'random' it will be auto-generated
+        steps - number of steps to run for
+        width - if init row is 'random', width of initial condition to use
 
     Returns:
         An array containing the cell values from the evolution.
     """
     rule_map = rule_table(rule_num)
-
+    if init == 'random':
+        initial_row = [randrange(0, 2) for i in range(width)]
+    else:
+        initial_row = init
+    evol = []
+    i = 0
+    evol += [initial_row]
+    while i < steps:
+        evol += [step(rule_map, evol[-1])]
+        i += 1
+    return evol
 
 """
 if __name__ == '__main__':
-    app.debug = True
+    run(0, 'random')
     app.run(host = '0.0.0.0', port = 5000)
 """
