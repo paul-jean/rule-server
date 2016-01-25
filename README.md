@@ -53,4 +53,4 @@ vagrant@vagrant-ubuntu-trusty-32:/vagrant/rule$ python project.py
 ```
 
 - navigate to localhost on port 5000 in your browser:
-![images/rule-server-home.png](home page)
+![rule server home page](images/rule-server-home.png)
