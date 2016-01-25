@@ -6,8 +6,8 @@ Date: Dec 2015
 
 from random import randrange
 import pdb
-"""
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -29,10 +29,10 @@ import httplib2
 import json
 from flask import make_response
 import requests
+"""
 
 # init Flask
 app = Flask(__name__)
-"""
 
 """
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
@@ -65,9 +65,10 @@ def step(rule_map, row):
     last_nb = '{l}{m}{r}'.format(l=row[-2], m=row[-1], r=row[0])
     new_row = ['{nb[0]}{nb[1]}{nb[2]}'.format(nb=row[i-1:i+2]) for i in range(1, len(row)-1)]
     new_row = [first_nb] + new_row + [last_nb]
-    new_row = [rule_map[nb] for nb in new_row]
+    new_row = [int(rule_map[nb]) for nb in new_row]
     return new_row
 
+@app.route('/rule/<int:rule_num>/JSON/', methods = ['GET'])
 def run(rule_num, init='random', steps=100, width=100):
     """
     Runs rule rule_num from the given initial condition, for the given number of steps.
@@ -92,10 +93,13 @@ def run(rule_num, init='random', steps=100, width=100):
     while i < steps:
         evol += [step(rule_map, evol[-1])]
         i += 1
-    return evol
+    return_dict = dict(Evolution = evol, width = width, steps = steps)
+    return jsonify(return_dict)
 
-"""
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 if __name__ == '__main__':
-    run(0, 'random')
+    app.debug = True
     app.run(host = '0.0.0.0', port = 5000)
-"""

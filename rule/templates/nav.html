@@ -1,18 +1,6 @@
 <nav class="nav">
     <ul>
-        <li><a href="{{ url_for('randomRestaurant') }}">random</a></li>
-        <p>|</p>
-        <li><a href="{{ url_for('showRestaurants') }}">restaurants</a></li>
-        <p>|</p>
-        <li><a href="{{ url_for('about') }}">about</a></li>
-        <p>|</p>
-        <li>
-            {% if 'username' not in login_session %}
-            <a href="{{ url_for('showLogin') }}">log in</a>
-            {% else %}
-            <a href="{{ url_for('disconnect') }}">log out</a>
-            {% endif %}
-        </li>
+        <li><a href="/">home</a></li>
     </ul>
 </nav>
 

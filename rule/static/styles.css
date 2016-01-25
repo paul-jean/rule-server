@@ -1,5 +1,4 @@
 body {
-    font-family: Monda;
 }
 
 h1 {
@@ -14,21 +13,6 @@ h1:before {
 h1:after {
     content: '>';
     margin-left: 5px;
-}
-
-.form {
-    text-align: center;
-}
-
-.button button {
-    font-family: Monda;
-    font-size: 14px;
-    border-radius: 5px;
-    border-color: #778899;
-    border-width: 1px;
-    border-style: solid;
-    background-color: #DDEEFF;
-    margin: 20px 5px;
 }
 
 .nav ul {
@@ -50,12 +34,6 @@ h1:after {
     text-decoration: none;
 }
 
-ul.rest_sub_nav {
-    display: inline;
-    list-style: none;
-    padding: 0;
-}
-
 .container {
     margin: auto;
     width: 1000px;
@@ -67,198 +45,27 @@ ul.container {
     padding: 0;
 }
 
-.container li, .random_choice {
-    display: block;
-    border-radius: 5px;
-    border-color: #778899;
-    border-width: 1px;
+.cell {
+    float: left;
+    width: 5px;
+    height: 5px;
     border-style: solid;
-    background-color: #AABBCC;
-    margin-top: 10px;
-}
-
-div.random_choice {
-    width: 400px;
-}
-
-.container p {
-    display: inline-block;
-}
-
-.container a {
-    display: inline-block;
-    text-align: center;
-    margin: 10px 0px;
-    text-decoration: none;
-}
-
-.container button {
-    text-align: center;
-}
-
-.rest_sub_nav li {
-    display: inline;
-    border-style: none;
-}
-
-.fields p {
-    clear: both;
-    float: left;
-    margin: 5px 5px;
-}
-
-.fields input {
-    float: left;
-    margin: 5px 5px;
-}
-
-.radio input {
-    clear: both;
-    float: left;
-    margin-top: 10px;
-    margin-left: 30px;
-}
-
-.radio p {
-    float: left;
-    display: inline-block;
-    margin: 5px 5px;
-}
-
-.radio button {
-    clear: both;
-    float: left;
-}
-
-.cancel button {
-    float: left;
-}
-
-.center {
-    clear: both;
-    margin: auto;
-    text-align: center;
-}
-
-#signinButton {
-    margin-bottom: 20px;
-}
-
-#appetizer {
-    clear: both;
-    float: left;
-    width: 200px;
-}
-
-#appetizer h2 {
-    text-align: left;
-}
-
-#entree {
-    float: left;
-    width: 200px;
-    margin-left: 50px;
-}
-
-#entree h2 {
-    text-align: left;
-}
-
-#dessert {
-    float: left;
-    width: 200px;
-    margin-left: 50px;
-}
-
-#dessert h2 {
-    text-align: left;
-}
-
-#beverege {
-    float: left;
-    width: 200px;
-    margin-left: 50px;
-}
-
-#beverege h2 {
-    text-align: left;
-    margin-bottom: 100px;
-}
-
-.menu_item {
-    text-align: left;
-}
-
-#menu h2 {
-    border-top: black solid 1px;
-    border-bottom: black solid 1px;
-    margin-bottom: 40px;
-}
-
-.price {
-    text-align: right;
-    display: block;
-}
-
-.forms {
-    margin-left: 350px;
-}
-
-.thin {
-    width: 400px;
-}
-
-.left {
-    float: left;
-}
-
-.clear {
-    clear: both;
-}
-
-.row {
-    display: inline-block;
-}
-
-.flashes ul {
-    margin: 0px;
-    padding: 0px;
-}
-
-.flashes li {
-    font-size: 14px;
-    border-radius: 0px;
-    border-color: #778899;
     border-width: 1px;
-    border-style: solid;
-    background-color: yellow;
-    margin: 20px 5px;
-    text-align: center;
 }
 
-div.flashes {
-    width: 400px;
-    margin: auto;
+.leftCell {
+    clear: both;
 }
 
-div.creator {
-    text-align: center;
-    margin: auto;
+.blackCell {
+    background: black;
 }
 
-.creator img {
-    width: 200px;
+.whiteCell {
+    background: white;
 }
 
-.food_pic_small img {
-    width: 100px;
+#array {
+    padding: 0 150px;
 }
 
-.food_pic img {
-    width: 200px;
-}
-
-.food_pic_small figure, .food_pic figure {
-    margin-left: 0;
-    margin-top: 0;
-}
